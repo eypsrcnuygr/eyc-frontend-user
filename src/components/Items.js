@@ -51,11 +51,11 @@ const Items = (props) => {
 
   const checkLoginStatus = () => {
     axios
-      .get("http://localhost:3001/v1/auth/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
@@ -78,9 +78,9 @@ const Items = (props) => {
     axios
       .get("http://localhost:3001/items", {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
@@ -98,11 +98,11 @@ const Items = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
@@ -131,9 +131,9 @@ const Items = (props) => {
         },
         {
           headers: {
-            uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-            client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-            "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+            uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+            client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+            "access-token": JSON.parse(localStorage.getItem("eycUser"))
               .myAccessToken,
           },
         }
@@ -176,57 +176,12 @@ const Items = (props) => {
 
   return (
     <div className="text-center">
-      <h1>Ürün Ekle</h1>
+      <h1>Tüm Ürünler</h1>
       <NavBar handleChange={handleChange} value={navState} />
       <div>
         <b>{myDiv}</b>
       </div>
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.name}
-        name="name"
-        type="text"
-        placeholder="Ürünün Adı"
-      />
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.details}
-        name="details"
-        type="text"
-        placeholder="Ürünün Detayları"
-      />
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.value}
-        name="value"
-        type="Number"
-        placeholder="Ürünün Fiyatı"
-      />
-      <select name="group" id="group" className="form-control w-50 mx-auto" onChange={(event) => onInputChange(event)}>
-        <option value="Müslin">Müslin</option>
-        <option value="Patik">Patik</option>
-        <option value="Battaniye">Battaniye</option>
-        <option value="Kundak">Kundak</option>
-      </select>
-      <Widget
-        publicKey={process.env.REACT_APP_PUBLIC_API_KEY}
-        id="file"
-        role="uploadcare-uploader"
-        onChange={(event) => onImageUpload(event)}
-        locale="tr"
-      />
-      <button
-        type="button"
-        className="btn btn-success my-3 w-25 mx-auto"
-        onClick={sendItemToAPI}
-      >
-        Yükle
-      </button>
       <div>
-        <h3>Yüklü Ürünler</h3>
         {ItemList.filter((myItem) => myItem.name.indexOf(navState) !== -1).map(
           (element) => {
             return (

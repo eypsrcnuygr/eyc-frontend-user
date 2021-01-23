@@ -48,7 +48,7 @@ const AppForm = props => {
   let responseVar = null;
 
   const handleSubmit = event => {
-    axios.post('http://localhost:3001/v1/auth', {
+    axios.post('http://localhost:3001/v1/auth_user', {
       email,
       password,
       password_confirmation,
@@ -84,14 +84,14 @@ const AppForm = props => {
 
 
   const handleSubmitForLogin = event => {
-    axios.post('http://localhost:3001/v1/auth/sign_in', {
+    axios.post('http://localhost:3001/v1/auth_user/sign_in', {
       email: emailForLogin,
       password: passwordForLogin,
     }, {
       headers: {
-        uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
-        client: JSON.parse(localStorage.getItem('currentUser')).myClient,
-        access_token: JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
+        uid: JSON.parse(localStorage.getItem('eycUser')).myUid,
+        client: JSON.parse(localStorage.getItem('eycUser')).myClient,
+        access_token: JSON.parse(localStorage.getItem('eycUser')).myAccessToken,
       },
     }).then(response => {
       if (response.status === 200) {
@@ -118,7 +118,7 @@ const AppForm = props => {
 
   return (
     <div className="yellowbg d-flex flex-column">
-      <h1 className="text-center font-weight-bold">Admin Paneline Hoşgeldiniz Ceyhun ve Yasemin</h1>
+      <h1 className="text-center font-weight-bold">EYC BABY</h1>
       <form className="text-center mb-4 w-50 mx-auto mt-4">
         <input
           type="email"

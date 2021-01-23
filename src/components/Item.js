@@ -48,11 +48,11 @@ const Item = (props) => {
 
   const checkLoginStatus = () => {
     axios
-      .get("http://localhost:3001/v1/auth/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
@@ -75,9 +75,9 @@ const Item = (props) => {
     axios
       .get(`http://localhost:3001/items/${props.match.params.id}`, {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
@@ -99,11 +99,11 @@ const Item = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
@@ -132,9 +132,9 @@ const Item = (props) => {
         },
         {
           headers: {
-            uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-            client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-            "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+            uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+            client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+            "access-token": JSON.parse(localStorage.getItem("eycUser"))
               .myAccessToken,
           },
         }
@@ -168,54 +168,10 @@ const Item = (props) => {
   };
   return (
     <div className="text-center">
-      <h1>Ürünü değiştir</h1>
+      <h1>{Item.name}</h1>
       <div>
         <b>{myDiv}</b>
       </div>
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.name}
-        name="name"
-        type="text"
-        placeholder="Ürünün Adı"
-      />
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.details}
-        name="details"
-        type="text"
-        placeholder="Ürünün Detayları"
-      />
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.value}
-        name="value"
-        type="Number"
-        placeholder="Ürünün Fiyatı"
-      />
-      <select name="group" id="group" className="form-control w-50 mx-auto" onChange={(event) => onInputChange(event)}>
-        <option value="Müslin">Müslin</option>
-        <option value="Patik">Patik</option>
-        <option value="Battaniye">Battaniye</option>
-        <option value="Kundak">Kundak</option>
-      </select>
-      <Widget
-        publicKey={process.env.REACT_APP_PUBLIC_API_KEY}
-        id="file"
-        role="uploadcare-uploader"
-        onChange={(event) => onImageUpload(event)}
-        locale="tr"
-      />
-      <button
-        type="button"
-        className="btn btn-success my-3 w-25 mx-auto"
-        onClick={sendItemToAPI}
-      >
-        Yükle
-      </button>
       <div className="card w-50 mx-auto p-4 shadow-lg mb-4">
       <div className="w-75 mx-auto">
         <img src={Item.image} alt="specific-item" className="img-fluid" />
@@ -233,7 +189,7 @@ const Item = (props) => {
           type="button"
           className="button btn btn-primary"
         >
-          Admin Panele Dön
+          Ana Sayfa
         </button>
         </Link>
         
