@@ -184,7 +184,7 @@ const Item = (props) => {
       
       
       <div className="mb-3">
-        <Link to="/logged_in">
+        <Link to="/">
         <button
           type="button"
           className="button btn btn-primary"

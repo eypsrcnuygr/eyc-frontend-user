@@ -3,9 +3,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
-import { Widget } from "@uploadcare/react-widget";
+import { Slide } from "react-slideshow-image";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import NavBar2 from "./NavBar2";
+import "../styles/App.css";
+import 'react-slideshow-image/dist/styles.css'
 
 const mapStateToProps = (state) => {
   const {
@@ -46,6 +49,7 @@ const Items = (props) => {
   const [myDiv, setMyDiv] = useState(null);
   const [ItemList, setItemList] = useState([]);
   const [navState, setNavState] = useState("");
+  const [banner, setBanner] = useState([]);
 
   let responseVar = null;
 
@@ -87,13 +91,14 @@ const Items = (props) => {
       .then((response) => {
         if (response.status === 200) {
           setItemList(response.data);
+          const a = response.data.filter(element => element.banner_status === true)
+          setBanner(a);
         }
-      });
+      })
   };
-
+  
   useEffect(() => {
     getItems();
-    checkLoginStatus();
   }, []);
 
   const handleLogOut = () => {
@@ -174,12 +179,31 @@ const Items = (props) => {
     setNavState(event.target.value);
   };
 
+  console.log(ItemList)
+  
+  console.log(banner);
+
   return (
     <div className="text-center">
+      <NavBar2 />
       <h1>Tüm Ürünler</h1>
       <NavBar handleChange={handleChange} value={navState} />
       <div>
         <b>{myDiv}</b>
+      </div>
+      <div>
+      <div className="slide-container">
+      <Slide>
+        {banner.map(element => (
+          <div className="card w-50 mx-auto p-4 shadow-lg" key={element.id}>
+            <div><b>{element.name}</b></div>
+            <div>{element.details}</div>
+            <div><Link to={`items/${element.id}`}><div className="image-container"><img src={element.image} className="img-fluid" alt="banner-element" /></div></Link></div>
+          </div>
+        ))}
+      </Slide>
+    </div>
+        
       </div>
       <div>
         {ItemList.filter((myItem) => myItem.name.indexOf(navState) !== -1).map(
