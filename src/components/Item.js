@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import { Widget } from "@uploadcare/react-widget";
+import NavBar2 from './NavBar2'
 import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state) => {
   const {
@@ -40,7 +40,7 @@ const Item = (props) => {
     name: "",
     details: "",
     value: 0,
-    group: 'Müslin',
+    group: "Müslin",
   });
   const [myDiv, setMyDiv] = useState(null);
   const [Item, setItem] = useState([]);
@@ -127,7 +127,7 @@ const Item = (props) => {
             details: state.details,
             value: state.value,
             name: state.name,
-            group: state.group
+            group: state.group,
           },
         },
         {
@@ -168,31 +168,25 @@ const Item = (props) => {
   };
   return (
     <div className="text-center">
+      <NavBar2 />
       <h1>{Item.name}</h1>
       <div>
         <b>{myDiv}</b>
       </div>
       <div className="card w-50 mx-auto p-4 shadow-lg mb-4">
-      <div className="w-75 mx-auto">
-        <img src={Item.image} alt="specific-item" className="img-fluid" />
-      </div>
-      <div>{Item.name}</div>
-      <div>{Item.details}</div>
-      <div>{Item.value}</div>
-      <div>{Item.group}</div>
-      </div>
-      
-      
-      <div className="mb-3">
-        <Link to="/">
-        <button
-          type="button"
-          className="button btn btn-primary"
-        >
-          Ana Sayfa
-        </button>
-        </Link>
-        
+        <div className="w-50 mx-auto">
+          <img src={Item.image} alt="specific-item" className="img-fluid rounded" />
+        </div>
+        <div>
+          Ürün Adı: <b>{Item.name}</b>
+        </div>
+        <div>
+          Detaylar: <b>{Item.details}</b>
+        </div>
+        <div>
+          Fiyatı: <b>{Item.value} Tr</b>
+        </div>
+        <div>{Item.group}</div>
       </div>
       <div className="mb-3">
         <button

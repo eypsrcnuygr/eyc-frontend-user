@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
 import NavBar2 from "./NavBar2";
 import "../styles/App.css";
-import 'react-slideshow-image/dist/styles.css'
+import "react-slideshow-image/dist/styles.css";
 
 const mapStateToProps = (state) => {
   const {
@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => ({
   logoutAdminFromComponent: (admin) => dispatch(logoutAdmin(admin)),
 });
 
-const Items = (props) => {
+const AllItems = (props) => {
   const [photo, setImage] = useState(null);
   const [state, setState] = useState({
     name: "",
@@ -91,12 +91,14 @@ const Items = (props) => {
       .then((response) => {
         if (response.status === 200) {
           setItemList(response.data);
-          const a = response.data.filter(element => element.banner_status === true)
+          const a = response.data.filter(
+            (element) => element.banner_status === true
+          );
           setBanner(a);
         }
-      })
+      });
   };
-  
+
   useEffect(() => {
     getItems();
   }, []);
@@ -179,8 +181,8 @@ const Items = (props) => {
     setNavState(event.target.value);
   };
 
-  console.log(ItemList)
-  
+  console.log(ItemList);
+
   console.log(banner);
 
   return (
@@ -191,21 +193,35 @@ const Items = (props) => {
       <div>
         <b>{myDiv}</b>
       </div>
-      <div>
-      <div className="slide-container">
-      <Slide>
-        {banner.map(element => (
-          <div className="card w-50 mx-auto p-4 shadow-lg" key={element.id}>
-            <div><b>{element.name}</b></div>
-            <div>{element.details}</div>
-            <div><Link to={`items/${element.id}`}><div className="image-container"><img src={element.image} className="img-fluid rounded" alt="banner-element" /></div></Link></div>
-          </div>
-        ))}
-      </Slide>
-    </div>
-        
+      <div className="row mx-0 px-3">
+        {ItemList.filter((myItem) => myItem.name.indexOf(navState) !== -1).map(
+          (element) => {
+            return (
+              <div
+                key={element.id}
+                className="card shadow-lg my-3 py-3 col-12 col-lg-4"
+              >
+                <div className="w-50 mx-auto">
+                  <Link to={`items/${element.id}`}>
+                    <img
+                      src={element.image}
+                      alt="item"
+                      className="card-img-top img-fluid rounded myImage"
+                    />
+                  </Link>
+                </div>
+                <div className="card-body">
+                  <div>{element.name}</div>
+                  <div>{element.details}</div>
+                  <div>{element.value}</div>
+                  <div>{element.group}</div>
+                </div>
+              </div>
+            );
+          }
+        )}
       </div>
-      <div className="mb-3 mt-2">
+      <div className="mb-3">
         <button
           type="button"
           className="button btn btn-danger"
@@ -218,4 +234,4 @@ const Items = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Items);
+export default connect(mapStateToProps, mapDispatchToProps)(AllItems);
