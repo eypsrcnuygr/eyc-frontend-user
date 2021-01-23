@@ -1,0 +1,145 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { logoutAdmin, loginAdmin } from "../actions/index";
+import { connect } from "react-redux";
+import { Slide } from "react-slideshow-image";
+import { Link } from "react-router-dom";
+import NavBar from "./NavBar";
+import NavBar2 from "./NavBar2";
+import "../styles/App.css";
+import 'react-slideshow-image/dist/styles.css'
+
+const mapStateToProps = (state) => {
+  const {
+    email,
+    password,
+    password_confirmation,
+    uid,
+    client,
+    access_token,
+  } = state.createAdminReducer.admin;
+
+  const { isLoggedIn } = state.createAdminReducer;
+
+  return {
+    email,
+    password,
+    password_confirmation,
+    isLoggedIn,
+    uid,
+    client,
+    access_token,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  loginAdminFromComponent: (admin) => dispatch(loginAdmin(admin)),
+  logoutAdminFromComponent: (admin) => dispatch(logoutAdmin(admin)),
+});
+
+const GroupByItem = (props) => {
+
+  const [ItemList, setItemList] = useState([]);
+  const [navState, setNavState] = useState("");
+  const [myGroup, setMyGroup] = useState([]);
+
+  let responseVar = null;
+
+
+  const getItems = () => {
+    axios
+      .get("http://localhost:3001/items", {
+        headers: {
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
+            .myAccessToken,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setItemList(response.data);
+          const a = response.data
+          setMyGroup(a);
+        }
+      })
+  };
+  
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  const handleLogOut = () => {
+    axios
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
+        headers: {
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
+            .myAccessToken,
+        },
+      })
+      .then(() => props.logoutAdminFromComponent())
+      .then(() => props.history.push("/"))
+      .catch((error) => {
+        responseVar = error.response.statusText;
+        setTimeout(() => {
+          alert(responseVar);
+        }, 500);
+      });
+  };
+
+  const handleChange = (event) => {
+    setNavState(event.target.value);
+  };
+
+  return (
+    <div className="text-center">
+      <NavBar2 />
+      <NavBar handleChange={handleChange} value={navState} />
+      <div>
+        
+      </div>
+      <div>
+        {myGroup.filter((myItem) => myItem.name.indexOf(navState) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
+          (element) => {
+            return (
+              <div
+                key={element.id}
+                className="card w-50 mx-auto shadow-lg my-3 py-3"
+              >
+                <div className="w-50 mx-auto">
+                  <Link to={`items/${element.id}`}>
+                    <img
+                      src={element.image}
+                      alt="item"
+                      className="card-img-top img-fluid"
+                    />
+                  </Link>
+                </div>
+                <div className="card-body">
+                  <div>{element.name}</div>
+                  <div>{element.details}</div>
+                  <div>{element.value}</div>
+                  <div>{element.group}</div>
+                </div>
+              </div>
+            );
+          }
+        )}
+      </div>
+      <div className="mb-3">
+        <button
+          type="button"
+          className="button btn btn-danger"
+          onClick={handleLogOut}
+        >
+          Çıkış
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupByItem);
