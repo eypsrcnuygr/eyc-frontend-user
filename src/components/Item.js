@@ -186,7 +186,7 @@ const Item = (props) => {
         <div>
           Fiyatı: <b>{Item.value} Tr</b>
         </div>
-        <div>{Item.group}</div>
+        <div><button className="btn btn-success">Sepete Ekle</button></div>
       </div>
       <div className="mb-3">
         <button

@@ -193,7 +193,7 @@ const Items = (props) => {
       </div>
       <div>
       <div className="slide-container">
-      <Slide>
+      <Slide easing="ease-in">
         {banner.map(element => (
           <div className="card w-50 mx-auto p-4 shadow-lg" key={element.id}>
             <div><b>{element.name}</b></div>
