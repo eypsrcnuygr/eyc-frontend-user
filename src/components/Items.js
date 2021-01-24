@@ -186,8 +186,8 @@ const Items = (props) => {
   return (
     <div className="text-center">
       <NavBar2 />
-      <h1>Tüm Ürünler</h1>
-      <NavBar handleChange={handleChange} value={navState} />
+      <h1>EYC BABY</h1>
+      
       <div>
         <b>{myDiv}</b>
       </div>

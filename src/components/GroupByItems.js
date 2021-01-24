@@ -99,13 +99,13 @@ const GroupByItem = (props) => {
       <NavBar2 />
       <NavBar handleChange={handleChange} value={navState} />
   
-      <div>
+      <div className="row">
         {myGroup.filter((myItem) => myItem.name.indexOf(navState) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
           (element) => {
             return (
               <div
                 key={element.id}
-                className="card w-50 mx-auto shadow-lg my-3 py-3"
+                className="card w-50 mx-auto shadow-lg my-3 py-3 col-6 col-lg-4"
               >
                 <div><h3>{element.group}</h3></div>
                 <div className="w-50 mx-auto">
@@ -113,7 +113,7 @@ const GroupByItem = (props) => {
                     <img
                       src={element.image}
                       alt="item"
-                      className="card-img-top img-fluid rounded"
+                      className="card-img-top img-fluid rounded myImage"
                     />
                   </Link>
                 </div>

@@ -4,5 +4,5 @@
 }
 
 .myImage:hover, .myImage:focus {
-  transform: translate(3px);
+  transform: translateY(-3px);
 }
