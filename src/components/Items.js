@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { logoutAdmin, loginAdmin } from "../actions/index";
+import { logoutAdmin, loginAdmin, addtoBasket } from "../actions/index";
 import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
 import { Link } from "react-router-dom";

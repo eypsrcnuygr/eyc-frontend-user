@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import NavBar2 from './NavBar2'
+import NavBar2 from "./NavBar2";
 import { useEffect, useState } from "react";
-import { logoutAdmin, loginAdmin } from "../actions/index";
+import { logoutAdmin, loginAdmin, addtoBasket } from "../actions/index";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -16,6 +16,8 @@ const mapStateToProps = (state) => {
     access_token,
   } = state.createAdminReducer.admin;
 
+  const { items_ids, user_id } = state.createBasketReducer.basket;
+
   const { isLoggedIn } = state.createAdminReducer;
 
   return {
@@ -26,12 +28,15 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    items_ids,
+    user_id
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   loginAdminFromComponent: (admin) => dispatch(loginAdmin(admin)),
   logoutAdminFromComponent: (admin) => dispatch(logoutAdmin(admin)),
+  addtoBasketFromComponent: (basket) => dispatch(addtoBasket(basket)),
 });
 
 const Item = (props) => {
@@ -46,6 +51,9 @@ const Item = (props) => {
   const [Item, setItem] = useState([]);
   let responseVar = null;
 
+  const [userId, setUserId] = useState(null);
+  const [itemId, setItemId] = useState([]);
+
   const checkLoginStatus = () => {
     axios
       .get("http://localhost:3001/v1/auth_user/validate_token", {
@@ -57,6 +65,7 @@ const Item = (props) => {
         },
       })
       .then((response) => {
+        setUserId(response.data.data.id);
         if (response.data.success && !props.isLoggedIn) {
           props.loginAdminFromComponent({
             admin: {
@@ -84,6 +93,7 @@ const Item = (props) => {
       .then((response) => {
         if (response.status === 200) {
           setItem(response.data);
+          setItemId(response.data.id);
         }
       });
   };
@@ -166,6 +176,15 @@ const Item = (props) => {
       [name]: value,
     }));
   };
+
+  const handleAddToBasket = () => {
+    props.addtoBasketFromComponent({
+      basket: {
+        user_id: userId,
+        items_ids: itemId,
+      },
+    })
+  } 
   return (
     <div className="text-center">
       <NavBar2 />
@@ -175,7 +194,11 @@ const Item = (props) => {
       </div>
       <div className="card w-50 mx-auto p-4 shadow-lg mb-4">
         <div className="w-50 mx-auto">
-          <img src={Item.image} alt="specific-item" className="img-fluid rounded" />
+          <img
+            src={Item.image}
+            alt="specific-item"
+            className="img-fluid rounded"
+          />
         </div>
         <div>
           Ürün Adı: <b>{Item.name}</b>
@@ -186,7 +209,16 @@ const Item = (props) => {
         <div>
           Fiyatı: <b>{Item.value} Tr</b>
         </div>
-        <div><button className="btn btn-success">Sepete Ekle</button></div>
+        <div>
+          <button
+            className="btn btn-success"
+            onClick={() =>
+              handleAddToBasket()
+            }
+          >
+            Sepete Ekle
+          </button>
+        </div>
       </div>
       <div className="mb-3">
         <button
