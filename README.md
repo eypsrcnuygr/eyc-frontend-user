@@ -32,6 +32,7 @@ To get this project up and running locally, you must have node installed on your
 - The command above will run the local server.<br>
 - Wait for bundle to finish.<br>
 - It uses [this](https://github.com/eypsrcnuygr/EYC_API) repo as API. To run your backend server please refer the given link.
+- It uses [this](https://github.com/eypsrcnuygr/eyc-frontend-admin) link as content creator admin panel. For more information please refer the link.
 - Enjoy!<br>
 
 **Repository Content**
