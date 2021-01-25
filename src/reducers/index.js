@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import createAdminReducer from './createAdminReducer';
+import createBasketReducer from './createBasketReducer';
 
 const rootReducer = combineReducers({
-  createAdminReducer,
+  createAdminReducer, createBasketReducer
 });
 
 export default rootReducer;

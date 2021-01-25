@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import { Widget } from "@uploadcare/react-widget";
+import NavBar2 from "./NavBar2";
 import { useEffect, useState } from "react";
-import { logoutAdmin, loginAdmin } from "../actions/index";
+import { logoutAdmin, loginAdmin, addtoBasket } from "../actions/index";
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state) => {
   const {
@@ -16,6 +16,8 @@ const mapStateToProps = (state) => {
     access_token,
   } = state.createAdminReducer.admin;
 
+  const { items_ids, user_id } = state.createBasketReducer.basket;
+
   const { isLoggedIn } = state.createAdminReducer;
 
   return {
@@ -26,12 +28,15 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    items_ids,
+    user_id
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   loginAdminFromComponent: (admin) => dispatch(loginAdmin(admin)),
   logoutAdminFromComponent: (admin) => dispatch(logoutAdmin(admin)),
+  addtoBasketFromComponent: (basket) => dispatch(addtoBasket(basket)),
 });
 
 const Item = (props) => {
@@ -40,23 +45,27 @@ const Item = (props) => {
     name: "",
     details: "",
     value: 0,
-    group: 'Müslin',
+    group: "Müslin",
   });
   const [myDiv, setMyDiv] = useState(null);
   const [Item, setItem] = useState([]);
   let responseVar = null;
 
+  const [userId, setUserId] = useState(null);
+  const [itemId, setItemId] = useState([]);
+
   const checkLoginStatus = () => {
     axios
-      .get("http://localhost:3001/v1/auth/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
       .then((response) => {
+        setUserId(response.data.data.id);
         if (response.data.success && !props.isLoggedIn) {
           props.loginAdminFromComponent({
             admin: {
@@ -75,15 +84,16 @@ const Item = (props) => {
     axios
       .get(`http://localhost:3001/items/${props.match.params.id}`, {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
       .then((response) => {
         if (response.status === 200) {
           setItem(response.data);
+          setItemId(response.data.id);
         }
       });
   };
@@ -99,11 +109,11 @@ const Item = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
-          uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-          client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
       })
@@ -127,14 +137,14 @@ const Item = (props) => {
             details: state.details,
             value: state.value,
             name: state.name,
-            group: state.group
+            group: state.group,
           },
         },
         {
           headers: {
-            uid: JSON.parse(localStorage.getItem("myAdmin")).myUid,
-            client: JSON.parse(localStorage.getItem("myAdmin")).myClient,
-            "access-token": JSON.parse(localStorage.getItem("myAdmin"))
+            uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+            client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+            "access-token": JSON.parse(localStorage.getItem("eycUser"))
               .myAccessToken,
           },
         }
@@ -166,77 +176,49 @@ const Item = (props) => {
       [name]: value,
     }));
   };
+
+  const handleAddToBasket = () => {
+    props.addtoBasketFromComponent({
+      basket: {
+        user_id: userId,
+        items_ids: itemId,
+      },
+    })
+  } 
   return (
     <div className="text-center">
-      <h1>Ürünü değiştir</h1>
+      <NavBar2 />
+      <h1>{Item.name}</h1>
       <div>
         <b>{myDiv}</b>
       </div>
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.name}
-        name="name"
-        type="text"
-        placeholder="Ürünün Adı"
-      />
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.details}
-        name="details"
-        type="text"
-        placeholder="Ürünün Detayları"
-      />
-      <input
-        className="form-control w-50 mx-auto my-2"
-        onChange={(event) => onInputChange(event)}
-        value={state.value}
-        name="value"
-        type="Number"
-        placeholder="Ürünün Fiyatı"
-      />
-      <select name="group" id="group" className="form-control w-50 mx-auto" onChange={(event) => onInputChange(event)}>
-        <option value="Müslin">Müslin</option>
-        <option value="Patik">Patik</option>
-        <option value="Battaniye">Battaniye</option>
-        <option value="Kundak">Kundak</option>
-      </select>
-      <Widget
-        publicKey={process.env.REACT_APP_PUBLIC_API_KEY}
-        id="file"
-        role="uploadcare-uploader"
-        onChange={(event) => onImageUpload(event)}
-        locale="tr"
-      />
-      <button
-        type="button"
-        className="btn btn-success my-3 w-25 mx-auto"
-        onClick={sendItemToAPI}
-      >
-        Yükle
-      </button>
       <div className="card w-50 mx-auto p-4 shadow-lg mb-4">
-      <div className="w-75 mx-auto">
-        <img src={Item.image} alt="specific-item" className="img-fluid" />
-      </div>
-      <div>{Item.name}</div>
-      <div>{Item.details}</div>
-      <div>{Item.value}</div>
-      <div>{Item.group}</div>
-      </div>
-      
-      
-      <div className="mb-3">
-        <Link to="/logged_in">
-        <button
-          type="button"
-          className="button btn btn-primary"
-        >
-          Admin Panele Dön
-        </button>
-        </Link>
-        
+        <div className="w-50 mx-auto">
+          <img
+            src={Item.image}
+            alt="specific-item"
+            className="img-fluid rounded"
+          />
+        </div>
+        <div>
+          Ürün Adı: <b>{Item.name}</b>
+        </div>
+        <div>
+          Detaylar: <b>{Item.details}</b>
+        </div>
+        <div>
+          Fiyatı: <b>{Item.value} Tr</b>
+        </div>
+        <div>
+          <button
+            className="btn btn-success"
+            onClick={() =>
+              handleAddToBasket()
+            }
+          >
+            Sepete Ekle
+          </button>
+        </div>
       </div>
       <div className="mb-3">
         <button

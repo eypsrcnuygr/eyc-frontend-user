@@ -11,3 +11,8 @@ export const loginAdmin = admin => ({
 export const logoutAdmin = () => ({
   type: 'LOGOUT_ADMIN',
 });
+
+export const addtoBasket = basket => ({
+  type: 'ADD_TO BASKET',
+  payload: basket
+});
