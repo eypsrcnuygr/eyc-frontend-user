@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
 const NavBar2 = (props) => {
   const checkLoginStatus = () => {
     axios
-      .get("http://localhost:3001/v1/auth_user/validate_token", {
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
