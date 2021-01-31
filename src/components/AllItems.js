@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
+import Footer from './Footer';
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
 import NavBar2 from "./NavBar2";
@@ -55,7 +56,7 @@ const AllItems = (props) => {
 
   const checkLoginStatus = () => {
     axios
-      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -80,7 +81,7 @@ const AllItems = (props) => {
 
   const getItems = () => {
     axios
-      .get("https://eyc-api.herokuapp.com/items", {
+      .get("http://localhost:3001/items", {
         // headers: {
         //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
         //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -105,7 +106,7 @@ const AllItems = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -126,7 +127,7 @@ const AllItems = (props) => {
   const sendItemToAPI = () => {
     axios
       .post(
-        "https://eyc-api.herokuapp.com/items",
+        "http://localhost:3001/items",
         {
           item: {
             image: photo,
@@ -186,22 +187,22 @@ const AllItems = (props) => {
   console.log(banner);
 
   return (
-    <div className="text-center">
+    <div className="text-center d-flex flex-column">
       <NavBar2 />
       <h1>Tüm Ürünler</h1>
       <NavBar handleChange={handleChange} value={navState} />
       <div>
         <b>{myDiv}</b>
       </div>
-      <div className="row mx-0 px-3">
+      <div className="row mx-0 px-3 d-flex justify-content-center">
         {ItemList.filter((myItem) => myItem.name.indexOf(navState) !== -1).map(
           (element) => {
             return (
               <div
                 key={element.id}
-                className="card shadow-lg my-3 py-3 col-12 col-lg-4"
+                className="card shadow-lg my-3 py-3 col-12 col-lg-3 mx-2 d-flex"
               >
-                <div className="w-50 mx-auto">
+                <div className="col-8 mx-auto">
                   <Link to={`items/${element.id}`}>
                     <img
                       src={element.image}
@@ -230,6 +231,7 @@ const AllItems = (props) => {
           Çıkış
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

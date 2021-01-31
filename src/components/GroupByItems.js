@@ -5,6 +5,7 @@ import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
 import { Link } from "react-router-dom";
+import Footer from './Footer';
 import NavBar from "./NavBar";
 import NavBar2 from "./NavBar2";
 import "../styles/App.css";
@@ -49,7 +50,7 @@ const GroupByItem = (props) => {
 
   const getItems = () => {
     axios
-      .get("https://eyc-api.herokuapp.com/items", {
+      .get("http://localhost:3001/items", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -72,7 +73,7 @@ const GroupByItem = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -99,16 +100,16 @@ const GroupByItem = (props) => {
       <NavBar2 />
       <NavBar handleChange={handleChange} value={navState} />
   
-      <div className="row">
+      <div className="row mx-0 d-flex justify-content-center">
         {myGroup.filter((myItem) => myItem.name.indexOf(navState) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
           (element) => {
             return (
               <div
                 key={element.id}
-                className="card w-50 mx-auto shadow-lg my-3 py-3 col-6 col-lg-4"
+                className="card shadow-lg my-3 py-3 col-9 col-md-3 mx-3"
               >
                 <div><h3>{element.group}</h3></div>
-                <div className="w-50 mx-auto">
+                <div className="mx-auto col-8">
                   <Link to={`/items/${element.id}`}>
                     <img
                       src={element.image}
@@ -136,6 +137,7 @@ const GroupByItem = (props) => {
           Çıkış
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

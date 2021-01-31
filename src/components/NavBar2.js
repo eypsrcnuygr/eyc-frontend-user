@@ -36,7 +36,7 @@ const NavBar2 = (props) => {
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
       axios
-      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -76,7 +76,7 @@ const NavBar2 = (props) => {
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
               <Link
-                className="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle font-weight-bold"
                 to="#"
                 id="navbarDropdown"
                 role="button"

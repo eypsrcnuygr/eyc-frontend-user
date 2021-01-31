@@ -3,6 +3,7 @@ import axios from "axios";
 import NavBar2 from "./NavBar2";
 import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin, addtoBasket } from "../actions/index";
+import Footer from './Footer';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -57,7 +58,7 @@ const Item = (props) => {
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
     axios
-      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -84,7 +85,7 @@ const Item = (props) => {
 
   const getItem = () => {
     axios
-      .get(`https://eyc-api.herokuapp.com/items/${props.match.params.id}`, {
+      .get(`http://localhost:3001/items/${props.match.params.id}`, {
         // headers: {
         //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
         //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -111,7 +112,7 @@ const Item = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -132,7 +133,7 @@ const Item = (props) => {
   const sendItemToAPI = () => {
     axios
       .patch(
-        `https://eyc-api.herokuapp.com/items/${props.match.params.id}`,
+        `http://localhost:3001/items/${props.match.params.id}`,
         {
           item: {
             image: photo,
@@ -188,14 +189,14 @@ const Item = (props) => {
     })
   } 
   return (
-    <div className="text-center">
+    <div className="text-center vh-100 h-100 d-flex flex-column">
       <NavBar2 />
       <h1>{Item.name}</h1>
       <div>
         <b>{myDiv}</b>
       </div>
-      <div className="card w-50 mx-auto p-4 shadow-lg mb-4">
-        <div className="w-50 mx-auto">
+      <div className="col-12 col-md-3 card mx-auto p-4 shadow-lg mb-4">
+        <div className="mx-auto col-9">
           <img
             src={Item.image}
             alt="specific-item"
@@ -231,6 +232,7 @@ const Item = (props) => {
           Çıkış
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

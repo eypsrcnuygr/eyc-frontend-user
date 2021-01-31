@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import Footer from './Footer';
 import NavBar2 from "./NavBar2";
 import "../styles/App.css";
 import 'react-slideshow-image/dist/styles.css'
@@ -55,7 +56,7 @@ const Items = (props) => {
 
   const checkLoginStatus = () => {
     axios
-      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -80,7 +81,7 @@ const Items = (props) => {
 
   const getItems = () => {
     axios
-      .get("https://eyc-api.herokuapp.com/items", {
+      .get("http://localhost:3001/items", {
         // headers: {
         //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
         //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -103,7 +104,7 @@ const Items = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -124,7 +125,7 @@ const Items = (props) => {
   const sendItemToAPI = () => {
     axios
       .post(
-        "https://eyc-api.herokuapp.com/items",
+        "http://localhost:3001/items",
         {
           item: {
             image: photo,
@@ -184,7 +185,7 @@ const Items = (props) => {
   console.log(banner);
 
   return (
-    <div className="text-center">
+    <div className="text-center h-100 vh-100 d-flex flex-column">
       <NavBar2 />
       <h1>EYC BABY</h1>
       
@@ -195,7 +196,7 @@ const Items = (props) => {
       <div className="slide-container">
       <Slide easing="ease-in">
         {banner.map(element => (
-          <div className="card w-50 mx-auto p-4 shadow-lg" key={element.id}>
+          <div className="card mx-auto p-4 shadow-lg col-12 col-md-4" key={element.id}>
             <div><b>{element.name}</b></div>
             <div>{element.details}</div>
             <div><Link to={`items/${element.id}`}><div className="image-container"><img src={element.image} className="img-fluid rounded" alt="banner-element" /></div></Link></div>
@@ -214,6 +215,7 @@ const Items = (props) => {
           Çıkış
         </button>
       </div>
+      <Footer />
     </div>
   );
 };
