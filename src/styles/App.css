@@ -6,3 +6,44 @@
 .myImage:hover, .myImage:focus {
   transform: translateY(-3px);
 }
+
+.logo {
+  width: 150px;
+  height: 125px;
+}
+
+.logo-2 {
+  width: 250px;
+  height: 225px;
+}
+
+footer {
+  background-color: black;
+}
+
+.my-navbar {
+  background-color: #ffa57d;
+}
+
+.my-link {
+  color: black !important;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  margin-right: 5px;
+}
+
+.details {
+  font-size: 1.3rem;
+}
+
+.login {
+  color: white !important;
+  font-weight: 700;
+  text-shadow: 2px 2px black;
+  font-size: 1.3rem;
+}
+
+.my-h4 {
+  text-shadow: 2px 2px red;
+  font-weight: 700;
+}

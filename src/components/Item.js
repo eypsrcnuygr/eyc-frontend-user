@@ -191,7 +191,9 @@ const Item = (props) => {
   return (
     <div className="text-center vh-100 h-100 d-flex flex-column">
       <NavBar2 />
-      <h1>{Item.name}</h1>
+      <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
       <div>
         <b>{myDiv}</b>
       </div>
@@ -204,33 +206,33 @@ const Item = (props) => {
           />
         </div>
         <div>
-          Ürün Adı: <b>{Item.name}</b>
+          <b>{Item.name}</b>
         </div>
         <div>
-          Detaylar: <b>{Item.details}</b>
+          <b>{Item.details}</b>
         </div>
         <div>
-          Fiyatı: <b>{Item.value} Tr</b>
+          <b>{Item.value} Tr</b>
         </div>
         <div>
-          <button
+          {props.isLoggedIn ? <button
             className="btn btn-success"
             onClick={() =>
               handleAddToBasket()
             }
           >
             Sepete Ekle
-          </button>
+          </button> : <p className="font-weight-bold text-danger">Alışveriş yapmak için giriş yapınız!</p>}
         </div>
       </div>
       <div className="mb-3">
-        <button
+        {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
       <Footer />
     </div>

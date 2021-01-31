@@ -192,6 +192,9 @@ const AllItems = (props) => {
       <h1>Tüm Ürünler</h1>
       <NavBar handleChange={handleChange} value={navState} />
       <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
+      <div>
         <b>{myDiv}</b>
       </div>
       <div className="row mx-0 px-3 d-flex justify-content-center">
@@ -212,10 +215,10 @@ const AllItems = (props) => {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <div>{element.name}</div>
-                  <div>{element.details}</div>
-                  <div>{element.value}</div>
-                  <div>{element.group}</div>
+                  <div className="font-weight-bold details">{element.name}</div>
+                  <div className="font-weight-bold details">{element.details}</div>
+                  <div className="font-weight-bold details">{element.value}</div>
+                  <div className="font-weight-bold details">{element.group}</div>
                 </div>
               </div>
             );
@@ -223,13 +226,13 @@ const AllItems = (props) => {
         )}
       </div>
       <div className="mb-3">
-        <button
+       {props.isLoggedIn ?  <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
       <Footer />
     </div>

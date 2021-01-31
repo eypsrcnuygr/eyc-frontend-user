@@ -44,6 +44,7 @@ const GroupByItem = (props) => {
   const [ItemList, setItemList] = useState([]);
   const [navState, setNavState] = useState("");
   const [myGroup, setMyGroup] = useState([]);
+  const [myHeader, setMyHeader] = useState([]);
 
   let responseVar = null;
 
@@ -51,12 +52,12 @@ const GroupByItem = (props) => {
   const getItems = () => {
     axios
       .get("http://localhost:3001/items", {
-        headers: {
-          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("eycUser"))
-            .myAccessToken,
-        },
+        // headers: {
+        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
+        //     .myAccessToken,
+        // },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -66,6 +67,7 @@ const GroupByItem = (props) => {
         }
       })
   };
+
   
   useEffect(() => {
     getItems();
@@ -94,12 +96,16 @@ const GroupByItem = (props) => {
   const handleChange = (event) => {
     setNavState(event.target.value);
   };
+  
 
   return (
-    <div className="text-center">
+    <div className="text-center d-flex flex-column vh-100">
       <NavBar2 />
+      <div><h1>{props.match.params.group.slice(1)}</h1></div>
       <NavBar handleChange={handleChange} value={navState} />
-  
+      <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
       <div className="row mx-0 d-flex justify-content-center">
         {myGroup.filter((myItem) => myItem.name.indexOf(navState) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
           (element) => {
@@ -108,7 +114,6 @@ const GroupByItem = (props) => {
                 key={element.id}
                 className="card shadow-lg my-3 py-3 col-9 col-md-3 mx-3"
               >
-                <div><h3>{element.group}</h3></div>
                 <div className="mx-auto col-8">
                   <Link to={`/items/${element.id}`}>
                     <img
@@ -119,9 +124,9 @@ const GroupByItem = (props) => {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <div>Ürün Adı: <b>{element.name}</b></div>
-                  <div>Detaylar: <b>{element.details}</b></div>
-                  <div>Fiyatı: <b>{element.value} Tr</b></div>
+                  <div className="details"><b>{element.name}</b></div>
+                  <div className="details"><b>{element.details}</b></div>
+                  <div className="details"><b>{element.value} Tr</b></div>
                 </div>
               </div>
             );
@@ -129,13 +134,13 @@ const GroupByItem = (props) => {
         )}
       </div>
       <div className="mb-3">
-        <button
+        {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
       <Footer />
     </div>

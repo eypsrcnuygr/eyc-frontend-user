@@ -66,7 +66,7 @@ const NavBar2 = (props) => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light my-navbar">
       <div
         className="collapse navbar-collapse d-flex justify-content-center"
         id="navbarSupportedContent"
@@ -76,7 +76,7 @@ const NavBar2 = (props) => {
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
               <Link
-                className="nav-link dropdown-toggle font-weight-bold"
+                className="nav-link dropdown-toggle font-weight-bold my-link"
                 to="#"
                 id="navbarDropdown"
                 role="button"
@@ -109,9 +109,9 @@ const NavBar2 = (props) => {
           </ul>
           <div>
             {!props.isLoggedIn ? (
-              <Link to="/logged_in">Giriş Yap</Link>
+              <Link to="/logged_in" className="login">Giriş Yap</Link>
             ) : (
-              <div className="ml-3"><Link to="/">Hoşgeldin {props.email}</Link></div>
+              <div className="ml-3"><Link to="/" className="my-link font-weight-bold">Hoşgeldin {props.email}</Link></div>
             )}
           </div>
         </div>

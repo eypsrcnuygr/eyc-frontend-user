@@ -187,7 +187,9 @@ const Items = (props) => {
   return (
     <div className="text-center h-100 vh-100 d-flex flex-column">
       <NavBar2 />
-      <h1>EYC BABY</h1>
+      <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
       
       <div>
         <b>{myDiv}</b>
@@ -196,9 +198,7 @@ const Items = (props) => {
       <div className="slide-container">
       <Slide easing="ease-in">
         {banner.map(element => (
-          <div className="card mx-auto p-4 shadow-lg col-12 col-md-4" key={element.id}>
-            <div><b>{element.name}</b></div>
-            <div>{element.details}</div>
+          <div className="card mx-auto p-4 shadow-lg col-12 col-md-6" key={element.id}>
             <div><Link to={`items/${element.id}`}><div className="image-container"><img src={element.image} className="img-fluid rounded" alt="banner-element" /></div></Link></div>
           </div>
         ))}
@@ -207,13 +207,13 @@ const Items = (props) => {
         
       </div>
       <div className="mb-3 mt-2">
-        <button
+        {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
       <Footer />
     </div>
