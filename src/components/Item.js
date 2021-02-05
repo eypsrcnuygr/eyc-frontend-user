@@ -185,6 +185,7 @@ const Item = (props) => {
       basket: {
         user_id: userId,
         items_ids: itemId,
+        value: Item.value
       },
     })
   } 
@@ -197,7 +198,7 @@ const Item = (props) => {
       <div>
         <b>{myDiv}</b>
       </div>
-      <div className="col-12 col-md-3 card mx-auto p-4 shadow-lg mb-4">
+      <div className="col-12 col-md-4 card mx-auto p-4 shadow-lg mb-4">
         <div className="mx-auto col-9">
           <img
             src={Item.image}

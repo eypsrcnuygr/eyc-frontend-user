@@ -4,6 +4,7 @@ import Items from './components/Items';
 import Item from './components/Item';
 import GroupByItem from './components/GroupByItems';
 import AllItems from './components/AllItems';
+import Basket from './containers/Basket';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path={['/items', '/items/:id']} exact render={props => <Item {...props} />} />
         <Route path={['/groups', '/groups/:group']} exact render={props => <GroupByItem {...props} />} />
         <Route path="/all" exact render={props => <AllItems {...props} />} />
+        <Route path="/basket" exact render={props => <Basket {...props} />} />
       </Switch>
   </HashRouter>
   );

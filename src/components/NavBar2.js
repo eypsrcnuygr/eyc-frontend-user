@@ -16,6 +16,8 @@ const mapStateToProps = (state) => {
 
   const { isLoggedIn } = state.createAdminReducer;
 
+  const { items_ids, user_id, value } = state.createBasketReducer.basket;
+
   return {
     email,
     password,
@@ -24,6 +26,9 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    items_ids,
+    user_id,
+    value
   };
 };
 
@@ -111,7 +116,11 @@ const NavBar2 = (props) => {
             {!props.isLoggedIn ? (
               <Link to="/logged_in" className="login">Giriş Yap</Link>
             ) : (
-              <div className="ml-3"><Link to="/" className="my-link font-weight-bold">Hoşgeldin {props.email}</Link></div>
+              <div className="d-flex justify-content-lg-between">
+                <div className="ml-3"><Link to="/" className="my-link-2 font-weight-bold">Hoşgeldin {props.email}</Link></div>
+                <div><Link to="/basket" className="my-link-2"><i className="fas fa-2x fa-shopping-cart"></i></Link><span style={{ position: "absolute", color: "white", fontWeight: "700" }}>{props.items_ids.length}</span></div>
+              </div>
+              
             )}
           </div>
         </div>

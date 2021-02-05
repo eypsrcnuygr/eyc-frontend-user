@@ -16,3 +16,8 @@ export const addtoBasket = basket => ({
   type: 'ADD_TO BASKET',
   payload: basket
 });
+
+export const removeFromBasket = (basket) => ({
+  type: 'REMOVE_FROM_BASKET',
+  payload: basket
+});

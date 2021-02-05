@@ -133,7 +133,7 @@ const AppForm = (props) => {
           type="password"
           name="password"
           id="myPasswordForTest"
-          placeholder="Password"
+          placeholder="Şifre"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
@@ -143,7 +143,7 @@ const AppForm = (props) => {
           type="password"
           name="password_confirmation"
           id="myPasswordConfirmationForTest"
-          placeholder="Password-Confirmation"
+          placeholder="Şifre-Tekrar"
           value={password_confirmation}
           onChange={(event) => setPasswordConfirmation(event.target.value)}
           required
@@ -174,7 +174,7 @@ const AppForm = (props) => {
           type="password"
           name="password"
           data-testid="custom-element2"
-          placeholder="Password"
+          placeholder="Şifre"
           value={passwordForLogin}
           onChange={(event) => setPasswordForLogin(event.target.value)}
           required
