@@ -158,13 +158,13 @@ const Basket = (props) => {
   return (
     <div className="d-flex flex-column h-100 vh-100 text-center">
       <NavBar2 />
-      <div className="d-flex flex-wrap text-center">
+      <div className="d-flex flex-wrap text-center mt-3">
         {myItems.map((item) => {
           i += 1;
           return (
-            <div key={i} className="col-lg-2 mx-auto">
+            <div key={i} className="col-lg-2 mx-auto card shadow-lg py-3">
               <div>
-                <img src={item.image} alt="ürün" className="img-fluid" />
+                <img src={item.image} alt="ürün" className="img-fluid col-10 py-3" />
               </div>
               <div>{item.name}</div>
               <div>{item.value}</div>
@@ -178,15 +178,18 @@ const Basket = (props) => {
           );
         })}
       </div>
-      <div className="font-weight-bold text-center text-danger">
+      <div className="font-weight-bold text-center text-danger mt-5">
         Toplam: {myValue} TL
       </div>
-      <button
-        onClick={handleTransaction}
-        className="btn btn-success col-lg-1 mx-auto font-weight-bold py-0"
-      >
-        Ödeme Yap
-      </button>
+      <div className="h-100">
+        <button
+          onClick={handleTransaction}
+          className="btn btn-success col-lg-1 mx-auto font-weight-bold"
+        >
+          Ödeme Yap
+        </button>
+      </div>
+
       <Footer />
     </div>
   );
