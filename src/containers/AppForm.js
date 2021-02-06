@@ -14,6 +14,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id,
   } = state.createAdminReducer.admin;
 
   const { isLoggedIn } = state.createAdminReducer;
@@ -26,6 +27,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id,
   };
 };
 
@@ -47,7 +49,7 @@ const AppForm = (props) => {
 
   const handleSubmit = (event) => {
     axios
-      .post("http://localhost:3001/v1/auth_user", {
+      .post("https://eyc-api.herokuapp.com/v1/auth_user", {
         email,
         password,
         password_confirmation,
@@ -65,6 +67,7 @@ const AppForm = (props) => {
               uid: response.headers.uid,
               access_token: response.headers.access_token,
               client: response.headers.client,
+              id: response.data.id
             },
           });
         }
@@ -86,17 +89,19 @@ const AppForm = (props) => {
 
   const handleSubmitForLogin = (event) => {
     axios
-      .post("http://localhost:3001/v1/auth_user/sign_in", {
+      .post("https://eyc-api.herokuapp.com/v1/auth_user/sign_in", {
         email: emailForLogin,
         password: passwordForLogin,
       })
       .then((response) => {
         if (response.status === 200) {
+          console.log(response.data);
           SetLocalStorage(response);
           props.loginAdminFromComponent({
             admin: {
               email: emailForLogin,
               password: passwordForLogin,
+              id: response.data.data.id
             },
           });
         }

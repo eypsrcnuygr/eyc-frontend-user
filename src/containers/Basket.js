@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id,
   } = state.createAdminReducer.admin;
 
   const { isLoggedIn } = state.createAdminReducer;
@@ -30,6 +31,7 @@ const mapStateToProps = (state) => {
     items_ids,
     user_id,
     value,
+    id
   };
 };
 
@@ -46,7 +48,7 @@ const Basket = (props) => {
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
       axios
-        .get("http://localhost:3001/v1/auth_user/validate_token", {
+        .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
           headers: {
             uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
             client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -61,6 +63,7 @@ const Basket = (props) => {
               admin: {
                 email: response.data.data.email,
                 password: props.password,
+                id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
               },
             });
           }
@@ -82,7 +85,7 @@ const Basket = (props) => {
   const getItems = () => {
     props.items_ids.forEach((id) => {
       axios
-        .get(`http://localhost:3001/items/${id}`, {
+        .get(`https://eyc-api.herokuapp.com/items/${id}`, {
           headers: {
             uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
             client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -101,7 +104,7 @@ const Basket = (props) => {
 
   const handleTransaction = () => {
     axios.post(
-      `http://localhost:3001/sold_items`,
+      `https://eyc-api.herokuapp.com/sold_items`,
       {
         sold_item: {
           user_id: props.user_id,

@@ -6,6 +6,7 @@ const initialState = {
     uidForAdmin: '',
     clientForAdmin: '',
     access_tokenForAdmin: '',
+    id: ''
   },
   isLoggedIn: false,
 };
@@ -23,6 +24,7 @@ const createAdminReducer = (state = initialState, action) => {
           uidForAdmin: action.payload.admin.uidForAdmin,
           clientForAdmin: action.payload.admin.clientForAdmin,
           access_tokenForAdmin: action.payload.admin.access_tokenForAdmin,
+          id: action.payload.admin.id
         },
         isLoggedIn: true,
       };
@@ -33,6 +35,7 @@ const createAdminReducer = (state = initialState, action) => {
         admin: {
           email: action.payload.admin.email,
           password: action.payload.admin.password,
+          id: action.payload.admin.id
         },
         isLoggedIn: true,
       };

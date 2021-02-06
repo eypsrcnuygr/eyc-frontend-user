@@ -38,10 +38,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const NavBar2 = (props) => {
+
+  const [errorDiv, setErrorDiv] = useState(null);
+
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
       axios
-      .get("http://localhost:3001/v1/auth_user/validate_token", {
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -55,12 +58,13 @@ const NavBar2 = (props) => {
             admin: {
               email: response.data.data.email,
               password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
             },
           });
         }
       })
       .catch((error) => {
-        console.log(error);
+        setErrorDiv(error);
       });
     }
 
@@ -117,14 +121,16 @@ const NavBar2 = (props) => {
               <Link to="/logged_in" className="login">Giriş Yap</Link>
             ) : (
               <div className="d-flex justify-content-lg-between">
-                <div className="ml-3"><Link to="/" className="my-link-2 font-weight-bold">Hoşgeldin {props.email}</Link></div>
+                <div className="ml-3"><Link to="/user" className="my-link-2 font-weight-bold">Hoşgeldin {props.email}</Link></div>
                 <div><Link to="/basket" className="my-link-2"><i className="fas fa-2x fa-shopping-cart"></i></Link><span style={{ position: "absolute", color: "white", fontWeight: "700" }}>{props.items_ids.length}</span></div>
               </div>
               
             )}
           </div>
         </div>
+        {errorDiv !== null && errorDiv.message === 'Request failed with status code 401' ? <div className="mx-auto">Giriş Yapmayı Unutmayın</div> : null }
       </div>
+      
     </nav>
   );
 };

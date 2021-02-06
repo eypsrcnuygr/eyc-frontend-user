@@ -48,10 +48,38 @@ const GroupByItem = (props) => {
 
   let responseVar = null;
 
+  const checkLoginStatus = () => {
+    if (JSON.parse(localStorage.getItem("eycUser"))) {
+    axios
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
+        headers: {
+          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+          "access-token": JSON.parse(localStorage.getItem("eycUser"))
+            .myAccessToken,
+        },
+      })
+      .then((response) => {
+        if (response.data.success && !props.isLoggedIn) {
+          props.loginAdminFromComponent({
+            admin: {
+              email: response.data.data.email,
+              password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+  };
+
 
   const getItems = () => {
     axios
-      .get("http://localhost:3001/items", {
+      .get("https://eyc-api.herokuapp.com/items", {
         // headers: {
         //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
         //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -71,11 +99,12 @@ const GroupByItem = (props) => {
   
   useEffect(() => {
     getItems();
+    checkLoginStatus();
   }, []);
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth_user/sign_out", {
+      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,

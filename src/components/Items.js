@@ -19,6 +19,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   } = state.createAdminReducer.admin;
 
   const { isLoggedIn } = state.createAdminReducer;
@@ -31,6 +32,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   };
 };
 
@@ -55,8 +57,9 @@ const Items = (props) => {
   let responseVar = null;
 
   const checkLoginStatus = () => {
+    if (JSON.parse(localStorage.getItem("eycUser"))) {
     axios
-      .get("http://localhost:3001/v1/auth_user/validate_token", {
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -70,6 +73,7 @@ const Items = (props) => {
             admin: {
               email: response.data.data.email,
               password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
             },
           });
         }
@@ -77,11 +81,12 @@ const Items = (props) => {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   const getItems = () => {
     axios
-      .get("http://localhost:3001/items", {
+      .get("https://eyc-api.herokuapp.com/items", {
         // headers: {
         //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
         //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -100,11 +105,12 @@ const Items = (props) => {
   
   useEffect(() => {
     getItems();
+    checkLoginStatus();
   }, []);
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth_user/sign_out", {
+      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -125,7 +131,7 @@ const Items = (props) => {
   const sendItemToAPI = () => {
     axios
       .post(
-        "http://localhost:3001/items",
+        "https://eyc-api.herokuapp.com/items",
         {
           item: {
             image: photo,
