@@ -67,7 +67,7 @@ const AppForm = (props) => {
               uid: response.headers.uid,
               access_token: response.headers.access_token,
               client: response.headers.client,
-              id: response.data.id
+              id: response.data.data.id
             },
           });
         }
