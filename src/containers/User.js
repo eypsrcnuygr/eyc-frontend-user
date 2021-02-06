@@ -160,7 +160,7 @@ const User = (props) => {
     <div className="d-flex flex-column h-100 vh-100 text-center">
       <NavBar2 />
       <div>
-       {JSON.parse(localStorage.getItem('eycUserResponse')) ? 
+       {(localStorage.getItem('eycUserResponse')) ? 
        JSON.parse(JSON.parse(localStorage.getItem('eycUserResponse')).response.data.items).map(element => {
          i+=1;
          return(
