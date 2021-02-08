@@ -3,6 +3,7 @@ import axios from "axios";
 import NavBar2 from "./NavBar2";
 import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin, addtoBasket } from "../actions/index";
+import Footer from './Footer';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -55,8 +56,9 @@ const Item = (props) => {
   const [itemId, setItemId] = useState([]);
 
   const checkLoginStatus = () => {
+    if (JSON.parse(localStorage.getItem("eycUser"))) {
     axios
-      .get("http://localhost:3001/v1/auth_user/validate_token", {
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -71,6 +73,7 @@ const Item = (props) => {
             admin: {
               email: response.data.data.email,
               password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
             },
           });
         }
@@ -78,17 +81,18 @@ const Item = (props) => {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   const getItem = () => {
     axios
-      .get(`http://localhost:3001/items/${props.match.params.id}`, {
-        headers: {
-          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("eycUser"))
-            .myAccessToken,
-        },
+      .get(`https://eyc-api.herokuapp.com/items/${props.match.params.id}`, {
+        // headers: {
+        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
+        //     .myAccessToken,
+        // },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -109,7 +113,7 @@ const Item = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth_user/sign_out", {
+      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -130,7 +134,7 @@ const Item = (props) => {
   const sendItemToAPI = () => {
     axios
       .patch(
-        `http://localhost:3001/items/${props.match.params.id}`,
+        `https://eyc-api.herokuapp.com/items/${props.match.params.id}`,
         {
           item: {
             image: photo,
@@ -182,18 +186,21 @@ const Item = (props) => {
       basket: {
         user_id: userId,
         items_ids: itemId,
+        value: Item.value
       },
     })
   } 
   return (
-    <div className="text-center">
+    <div className="text-center vh-100 h-100 d-flex flex-column">
       <NavBar2 />
-      <h1>{Item.name}</h1>
+      <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
       <div>
         <b>{myDiv}</b>
       </div>
-      <div className="card w-50 mx-auto p-4 shadow-lg mb-4">
-        <div className="w-50 mx-auto">
+      <div className="col-12 col-md-4 card mx-auto p-4 shadow-lg mb-4">
+        <div className="mx-auto col-9">
           <img
             src={Item.image}
             alt="specific-item"
@@ -201,34 +208,35 @@ const Item = (props) => {
           />
         </div>
         <div>
-          Ürün Adı: <b>{Item.name}</b>
+          <b>{Item.name}</b>
         </div>
         <div>
-          Detaylar: <b>{Item.details}</b>
+          <b>{Item.details}</b>
         </div>
         <div>
-          Fiyatı: <b>{Item.value} Tr</b>
+          <b>{Item.value} Tr</b>
         </div>
         <div>
-          <button
+          {props.isLoggedIn ? <button
             className="btn btn-success"
             onClick={() =>
               handleAddToBasket()
             }
           >
             Sepete Ekle
-          </button>
+          </button> : <p className="font-weight-bold text-danger">Alışveriş yapmak için giriş yapınız!</p>}
         </div>
       </div>
       <div className="mb-3">
-        <button
+        {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
+      <Footer />
     </div>
   );
 };

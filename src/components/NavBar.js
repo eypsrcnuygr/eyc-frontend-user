@@ -1,6 +1,6 @@
 const NavBar = (props) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light">
       <div className="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent">
         <form className="form-inline my-2 my-lg-0 text-center">
           <input

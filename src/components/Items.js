@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import Footer from './Footer';
 import NavBar2 from "./NavBar2";
 import "../styles/App.css";
 import 'react-slideshow-image/dist/styles.css'
@@ -18,6 +19,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   } = state.createAdminReducer.admin;
 
   const { isLoggedIn } = state.createAdminReducer;
@@ -30,6 +32,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   };
 };
 
@@ -54,8 +57,9 @@ const Items = (props) => {
   let responseVar = null;
 
   const checkLoginStatus = () => {
+    if (JSON.parse(localStorage.getItem("eycUser"))) {
     axios
-      .get("http://localhost:3001/v1/auth_user/validate_token", {
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -69,6 +73,7 @@ const Items = (props) => {
             admin: {
               email: response.data.data.email,
               password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
             },
           });
         }
@@ -76,17 +81,18 @@ const Items = (props) => {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   const getItems = () => {
     axios
-      .get("http://localhost:3001/items", {
-        headers: {
-          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("eycUser"))
-            .myAccessToken,
-        },
+      .get("https://eyc-api.herokuapp.com/items", {
+        // headers: {
+        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
+        //     .myAccessToken,
+        // },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -99,11 +105,12 @@ const Items = (props) => {
   
   useEffect(() => {
     getItems();
+    checkLoginStatus();
   }, []);
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth_user/sign_out", {
+      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -124,7 +131,7 @@ const Items = (props) => {
   const sendItemToAPI = () => {
     axios
       .post(
-        "http://localhost:3001/items",
+        "https://eyc-api.herokuapp.com/items",
         {
           item: {
             image: photo,
@@ -184,9 +191,11 @@ const Items = (props) => {
   console.log(banner);
 
   return (
-    <div className="text-center">
+    <div className="text-center h-100 vh-100 d-flex flex-column">
       <NavBar2 />
-      <h1>EYC BABY</h1>
+      <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
       
       <div>
         <b>{myDiv}</b>
@@ -195,9 +204,7 @@ const Items = (props) => {
       <div className="slide-container">
       <Slide easing="ease-in">
         {banner.map(element => (
-          <div className="card w-50 mx-auto p-4 shadow-lg" key={element.id}>
-            <div><b>{element.name}</b></div>
-            <div>{element.details}</div>
+          <div className="card mx-auto p-4 shadow-lg col-12 col-md-6" key={element.id}>
             <div><Link to={`items/${element.id}`}><div className="image-container"><img src={element.image} className="img-fluid rounded" alt="banner-element" /></div></Link></div>
           </div>
         ))}
@@ -206,14 +213,15 @@ const Items = (props) => {
         
       </div>
       <div className="mb-3 mt-2">
-        <button
+        {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
+      <Footer />
     </div>
   );
 };

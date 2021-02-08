@@ -5,6 +5,7 @@ import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
 import { Link } from "react-router-dom";
+import Footer from './Footer';
 import NavBar from "./NavBar";
 import NavBar2 from "./NavBar2";
 import "../styles/App.css";
@@ -43,19 +44,48 @@ const GroupByItem = (props) => {
   const [ItemList, setItemList] = useState([]);
   const [navState, setNavState] = useState("");
   const [myGroup, setMyGroup] = useState([]);
+  const [myHeader, setMyHeader] = useState([]);
 
   let responseVar = null;
 
-
-  const getItems = () => {
+  const checkLoginStatus = () => {
+    if (JSON.parse(localStorage.getItem("eycUser"))) {
     axios
-      .get("http://localhost:3001/items", {
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
           "access-token": JSON.parse(localStorage.getItem("eycUser"))
             .myAccessToken,
         },
+      })
+      .then((response) => {
+        if (response.data.success && !props.isLoggedIn) {
+          props.loginAdminFromComponent({
+            admin: {
+              email: response.data.data.email,
+              password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+  };
+
+
+  const getItems = () => {
+    axios
+      .get("https://eyc-api.herokuapp.com/items", {
+        // headers: {
+        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
+        //     .myAccessToken,
+        // },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -65,14 +95,16 @@ const GroupByItem = (props) => {
         }
       })
   };
+
   
   useEffect(() => {
     getItems();
+    checkLoginStatus();
   }, []);
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth_user/sign_out", {
+      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -93,22 +125,25 @@ const GroupByItem = (props) => {
   const handleChange = (event) => {
     setNavState(event.target.value);
   };
+  
 
   return (
-    <div className="text-center">
+    <div className="text-center d-flex flex-column vh-100">
       <NavBar2 />
+      <div><h1>{props.match.params.group.slice(1)}</h1></div>
       <NavBar handleChange={handleChange} value={navState} />
-  
-      <div className="row">
+      <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
+      <div className="row mx-0 d-flex justify-content-center">
         {myGroup.filter((myItem) => myItem.name.indexOf(navState) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
           (element) => {
             return (
               <div
                 key={element.id}
-                className="card w-50 mx-auto shadow-lg my-3 py-3 col-6 col-lg-4"
+                className="card shadow-lg my-3 py-3 col-9 col-md-3 mx-3"
               >
-                <div><h3>{element.group}</h3></div>
-                <div className="w-50 mx-auto">
+                <div className="mx-auto col-8">
                   <Link to={`/items/${element.id}`}>
                     <img
                       src={element.image}
@@ -118,9 +153,9 @@ const GroupByItem = (props) => {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <div>Ürün Adı: <b>{element.name}</b></div>
-                  <div>Detaylar: <b>{element.details}</b></div>
-                  <div>Fiyatı: <b>{element.value} Tr</b></div>
+                  <div className="details"><b>{element.name}</b></div>
+                  <div className="details"><b>{element.details}</b></div>
+                  <div className="details"><b>{element.value} Tr</b></div>
                 </div>
               </div>
             );
@@ -128,14 +163,15 @@ const GroupByItem = (props) => {
         )}
       </div>
       <div className="mb-3">
-        <button
+        {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
+      <Footer />
     </div>
   );
 };

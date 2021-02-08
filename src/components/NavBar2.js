@@ -16,6 +16,8 @@ const mapStateToProps = (state) => {
 
   const { isLoggedIn } = state.createAdminReducer;
 
+  const { items_ids, user_id, value } = state.createBasketReducer.basket;
+
   return {
     email,
     password,
@@ -24,6 +26,9 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    items_ids,
+    user_id,
+    value
   };
 };
 
@@ -33,9 +38,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const NavBar2 = (props) => {
+
+  const [errorDiv, setErrorDiv] = useState(null);
+
   const checkLoginStatus = () => {
-    axios
-      .get("http://localhost:3001/v1/auth_user/validate_token", {
+    if (JSON.parse(localStorage.getItem("eycUser"))) {
+      axios
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -49,13 +58,16 @@ const NavBar2 = (props) => {
             admin: {
               email: response.data.data.email,
               password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
             },
           });
         }
       })
       .catch((error) => {
-        console.log(error);
+        setErrorDiv(error);
       });
+    }
+
   };
 
   useEffect(() => {
@@ -63,7 +75,7 @@ const NavBar2 = (props) => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light my-navbar">
       <div
         className="collapse navbar-collapse d-flex justify-content-center"
         id="navbarSupportedContent"
@@ -73,7 +85,7 @@ const NavBar2 = (props) => {
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
               <Link
-                className="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle font-weight-bold my-link"
                 to="#"
                 id="navbarDropdown"
                 role="button"
@@ -106,13 +118,19 @@ const NavBar2 = (props) => {
           </ul>
           <div>
             {!props.isLoggedIn ? (
-              <Link to="/logged_in">Giriş Yap</Link>
+              <Link to="/logged_in" className="login">Giriş Yap</Link>
             ) : (
-              <div className="ml-3"><Link to="/">Hoşgeldin {props.email}</Link></div>
+              <div className="d-flex justify-content-lg-between">
+                <div className="ml-3"><Link to="/" className="my-link-2 font-weight-bold">Hoşgeldin {props.email}</Link></div>
+                <div><Link to="/basket" className="my-link-2"><i className="fas fa-2x fa-shopping-cart"></i></Link><span style={{ position: "absolute", color: "white", fontWeight: "700" }}>{props.items_ids.length}</span></div>
+              </div>
+              
             )}
           </div>
         </div>
+        {errorDiv !== null && errorDiv.message === 'Request failed with status code 401' ? <div className="mx-auto">Giriş Yapmayı Unutmayın</div> : null }
       </div>
+      
     </nav>
   );
 };

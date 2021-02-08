@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
+import Footer from './Footer';
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
 import NavBar2 from "./NavBar2";
@@ -18,6 +19,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   } = state.createAdminReducer.admin;
 
   const { isLoggedIn } = state.createAdminReducer;
@@ -30,6 +32,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   };
 };
 
@@ -54,8 +57,9 @@ const AllItems = (props) => {
   let responseVar = null;
 
   const checkLoginStatus = () => {
+    if (JSON.parse(localStorage.getItem("eycUser"))) {
     axios
-      .get("http://localhost:3001/v1/auth_user/validate_token", {
+      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -69,6 +73,7 @@ const AllItems = (props) => {
             admin: {
               email: response.data.data.email,
               password: props.password,
+              id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
             },
           });
         }
@@ -76,17 +81,18 @@ const AllItems = (props) => {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   const getItems = () => {
     axios
-      .get("http://localhost:3001/items", {
-        headers: {
-          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("eycUser"))
-            .myAccessToken,
-        },
+      .get("https://eyc-api.herokuapp.com/items", {
+        // headers: {
+        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
+        //     .myAccessToken,
+        // },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -101,11 +107,12 @@ const AllItems = (props) => {
 
   useEffect(() => {
     getItems();
+    checkLoginStatus();
   }, []);
 
   const handleLogOut = () => {
     axios
-      .delete("http://localhost:3001/v1/auth_user/sign_out", {
+      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -126,7 +133,7 @@ const AllItems = (props) => {
   const sendItemToAPI = () => {
     axios
       .post(
-        "http://localhost:3001/items",
+        "https://eyc-api.herokuapp.com/items",
         {
           item: {
             image: photo,
@@ -186,22 +193,25 @@ const AllItems = (props) => {
   console.log(banner);
 
   return (
-    <div className="text-center">
+    <div className="text-center d-flex flex-column">
       <NavBar2 />
       <h1>Tüm Ürünler</h1>
       <NavBar handleChange={handleChange} value={navState} />
       <div>
+          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+        </div>
+      <div>
         <b>{myDiv}</b>
       </div>
-      <div className="row mx-0 px-3">
+      <div className="row mx-0 px-3 d-flex justify-content-center">
         {ItemList.filter((myItem) => myItem.name.indexOf(navState) !== -1).map(
           (element) => {
             return (
               <div
                 key={element.id}
-                className="card shadow-lg my-3 py-3 col-12 col-lg-4"
+                className="card shadow-lg my-3 py-3 col-12 col-lg-3 mx-2 d-flex"
               >
-                <div className="w-50 mx-auto">
+                <div className="col-8 mx-auto">
                   <Link to={`items/${element.id}`}>
                     <img
                       src={element.image}
@@ -211,10 +221,10 @@ const AllItems = (props) => {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <div>{element.name}</div>
-                  <div>{element.details}</div>
-                  <div>{element.value}</div>
-                  <div>{element.group}</div>
+                  <div className="font-weight-bold details">{element.name}</div>
+                  <div className="font-weight-bold details">{element.details}</div>
+                  <div className="font-weight-bold details">{element.value}</div>
+                  <div className="font-weight-bold details">{element.group}</div>
                 </div>
               </div>
             );
@@ -222,14 +232,15 @@ const AllItems = (props) => {
         )}
       </div>
       <div className="mb-3">
-        <button
+       {props.isLoggedIn ?  <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
         >
           Çıkış
-        </button>
+        </button> : null}
       </div>
+      <Footer />
     </div>
   );
 };
