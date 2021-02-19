@@ -5,7 +5,7 @@ const Security = () => (
   <div className="d-flex flex-column vh-100">
     <NavBar2 />
     <div className="card py-3 shadow-lg col-lg-11 mx-auto">
-      <h1 className="text-center">İade ve İptal Koşulları</h1>
+      <h1 className="text-center">Gizlilik ve Güvenlik İlkesi</h1>
       <div>
       Firmamız, çeşitli amaçlarla kişisel veriler toplayabilir. Aşağıda, toplanan kişisel verilerin nasıl ve ne şekilde toplandığı, bu verilerin nasıl ve ne şekilde korunduğu belirtilmiştir.<br/> 
 
