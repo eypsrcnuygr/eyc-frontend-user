@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { connect } from "react-redux";
 import { logoutAdmin, loginAdmin, removeFromBasket } from "../actions/index";
 import { useEffect, useState } from "react";
@@ -44,6 +45,7 @@ const mapDispatchToProps = (dispatch) => ({
 const Basket = (props) => {
   const [myValue, setMyValue] = useState(0);
   const [myItems, setMyItems] = useState([]);
+  let i = -1;
 
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
@@ -57,7 +59,6 @@ const Basket = (props) => {
           },
         })
         .then((response) => {
-          // setUserId(response.data.data.id);
           if (response.data.success && !props.isLoggedIn) {
             props.loginAdminFromComponent({
               admin: {
@@ -122,11 +123,6 @@ const Basket = (props) => {
         },
       }
     );
-    // .then((response) => {
-    //   if (response.status === 200) {
-    //     setMyItems(...myItems, response.data);
-    //   }
-    // });
   };
 
   const getRemovedItems = (i) => {
@@ -156,7 +152,7 @@ const Basket = (props) => {
   useEffect(() => {
     calculateValue();
   }, [props.value]);
-  let i = -1;
+
 
   return (
     <div className="d-flex flex-column h-100 vh-100 text-center">
