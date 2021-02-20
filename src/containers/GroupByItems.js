@@ -143,7 +143,7 @@ const GroupByItem = (props) => {
                 </div>
                 <div className="card-body">
                   <div className="details"><b>{element.name}</b></div>
-                  <div className="details"><b>{element.value} Tr</b></div>
+                  <div className="details"><b>{element.value} ₺</b></div>
                 </div>
               </div>
             );

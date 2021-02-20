@@ -143,7 +143,7 @@ const Item = (props) => {
           <b>{Item.details}</b>
         </div>
         <div>
-          <b>{Item.value} Tr</b>
+          <b>{Item.value} ₺</b>
         </div>
         <div>
           {props.isLoggedIn ? <button

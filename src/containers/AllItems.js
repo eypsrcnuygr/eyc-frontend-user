@@ -143,7 +143,7 @@ const AllItems = (props) => {
                   <div className="font-weight-bold details">{element.name}</div>
                   <div className="font-weight-bold details">{element.details}</div>
                   <div className="font-weight-bold details">{element.value}</div>
-                  <div className="font-weight-bold details">{element.group}</div>
+                  <div className="font-weight-bold details">{element.group} ₺</div>
                 </div>
               </div>
             );
