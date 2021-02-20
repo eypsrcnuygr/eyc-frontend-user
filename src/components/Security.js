@@ -62,7 +62,7 @@ Gizlilik politikamız ile ilgili her türlü soru ve önerileriniz için yasemin
 
 Firma Ünvanı: YASEMİN ÇOLPAN<br/>
 Adres: AKŞEMSETTİN MAH AYTAÇ SOK NO:8<br/>
-Eposta: yasemin@eycbaby.com.tr<br/>
+Eposta: yasemincolpan@eycbaby.com.tr<br/>
 Tel:05064728428<br/>
 
       </div>
