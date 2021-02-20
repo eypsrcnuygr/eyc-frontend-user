@@ -140,7 +140,7 @@ const Item = (props) => {
           <b>{Item.name}</b>
         </div>
         <div>
-          <b>{Item.details}</b>
+          {Item.details}
         </div>
         <div>
           <b>{Item.value} ₺</b>
