@@ -2,7 +2,7 @@
 
 This is an ongoing project which is an e-commerce app for baby products.
 
-![screenshot](./public/screenshot.png)<br>
+![screenshot](./public/screenshotEyc.png)<br>
 
 ## Built With
 
