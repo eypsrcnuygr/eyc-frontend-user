@@ -5,9 +5,8 @@ import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
 import { Slide } from "react-slideshow-image";
 import { Link } from "react-router-dom";
-import Footer from './Footer';
-import NavBar from "./NavBar";
-import NavBar2 from "./NavBar2";
+import Footer from '../components/Footer';
+import NavBar2 from "../components/NavBar2";
 import "../styles/App.css";
 import 'react-slideshow-image/dist/styles.css'
 
@@ -19,6 +18,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   } = state.createAdminReducer.admin;
 
   const { isLoggedIn } = state.createAdminReducer;
@@ -31,6 +31,7 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
+    id
   };
 };
 
@@ -39,12 +40,8 @@ const mapDispatchToProps = (dispatch) => ({
   logoutAdminFromComponent: (admin) => dispatch(logoutAdmin(admin)),
 });
 
-const GroupByItem = (props) => {
-
-  const [ItemList, setItemList] = useState([]);
-  const [navState, setNavState] = useState("");
-  const [myGroup, setMyGroup] = useState([]);
-  const [myHeader, setMyHeader] = useState([]);
+const Items = (props) => {
+  const [banner, setBanner] = useState([]);
 
   let responseVar = null;
 
@@ -76,26 +73,17 @@ const GroupByItem = (props) => {
     }
   };
 
-
   const getItems = () => {
     axios
       .get("https://eyc-api.herokuapp.com/items", {
-        // headers: {
-        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
-        //     .myAccessToken,
-        // },
       })
       .then((response) => {
         if (response.status === 200) {
-          setItemList(response.data);
-          const a = response.data
-          setMyGroup(a);
+          const a = response.data.filter(element => element.banner_status === true)
+          setBanner(a);
         }
       })
   };
-
   
   useEffect(() => {
     getItems();
@@ -122,47 +110,25 @@ const GroupByItem = (props) => {
       });
   };
 
-  const handleChange = (event) => {
-    setNavState(event.target.value);
-  };
-  
-
   return (
-    <div className="text-center d-flex flex-column vh-100">
+    <div className="text-center h-100 vh-100 d-flex flex-column">
       <NavBar2 />
-      <div><h1>{props.match.params.group.slice(1)}</h1></div>
-      <NavBar handleChange={handleChange} value={navState} />
       <div>
           <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
         </div>
-      <div className="row mx-0 d-flex justify-content-center">
-        {myGroup.filter((myItem) => myItem.name.indexOf(navState) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
-          (element) => {
-            return (
-              <div
-                key={element.id}
-                className="card shadow-lg my-3 py-3 col-9 col-md-3 mx-3"
-              >
-                <div className="mx-auto col-8">
-                  <Link to={`/items/${element.id}`}>
-                    <img
-                      src={element.image}
-                      alt="item"
-                      className="card-img-top img-fluid rounded myImage"
-                    />
-                  </Link>
-                </div>
-                <div className="card-body">
-                  <div className="details"><b>{element.name}</b></div>
-                  <div className="details"><b>{element.details}</b></div>
-                  <div className="details"><b>{element.value} Tr</b></div>
-                </div>
-              </div>
-            );
-          }
-        )}
+      <div>
+      <div className="slide-container">
+      <Slide easing="ease-in">
+        {banner.map(element => (
+          <div className="card mx-auto p-4 shadow-lg col-12 col-md-6" key={element.id}>
+            <div><Link to={`items/${element.id}`}><div className="image-container"><img src={element.image} className="img-fluid rounded" alt="banner-element" /></div></Link></div>
+          </div>
+        ))}
+      </Slide>
+    </div>
+        
       </div>
-      <div className="mb-3">
+      <div className="mb-3 mt-2">
         {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
@@ -176,4 +142,4 @@ const GroupByItem = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupByItem);
+export default connect(mapStateToProps, mapDispatchToProps)(Items);

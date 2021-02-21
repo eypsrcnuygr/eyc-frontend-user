@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import NavBar2 from "./NavBar2";
+import NavBar2 from "../components/NavBar2";
 import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin, addtoBasket } from "../actions/index";
-import Footer from './Footer';
+import Footer from '../components/Footer';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -41,14 +41,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Item = (props) => {
-  const [photo, setImage] = useState(null);
-  const [state, setState] = useState({
-    name: "",
-    details: "",
-    value: 0,
-    group: "Müslin",
-  });
-  const [myDiv, setMyDiv] = useState(null);
   const [Item, setItem] = useState([]);
   let responseVar = null;
 
@@ -87,12 +79,6 @@ const Item = (props) => {
   const getItem = () => {
     axios
       .get(`https://eyc-api.herokuapp.com/items/${props.match.params.id}`, {
-        // headers: {
-        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
-        //     .myAccessToken,
-        // },
       })
       .then((response) => {
         if (response.status === 200) {
@@ -106,10 +92,6 @@ const Item = (props) => {
     getItem();
     checkLoginStatus();
   }, []);
-
-  const onImageUpload = (event) => {
-    setImage(event.originalUrl);
-  };
 
   const handleLogOut = () => {
     axios
@@ -131,56 +113,6 @@ const Item = (props) => {
       });
   };
 
-  const sendItemToAPI = () => {
-    axios
-      .patch(
-        `https://eyc-api.herokuapp.com/items/${props.match.params.id}`,
-        {
-          item: {
-            image: photo,
-            details: state.details,
-            value: state.value,
-            name: state.name,
-            group: state.group,
-          },
-        },
-        {
-          headers: {
-            uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-            client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-            "access-token": JSON.parse(localStorage.getItem("eycUser"))
-              .myAccessToken,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          setMyDiv("Yükleme Başarılı");
-          getItem();
-          setTimeout(() => {
-            setMyDiv(null);
-          }, 2000);
-        }
-      })
-      .then(() => {
-        checkLoginStatus();
-      })
-      .catch((error) => {
-        responseVar = error.response.statusText;
-        setTimeout(() => {
-          alert(responseVar);
-        }, 500);
-      });
-  };
-
-  const onInputChange = (event) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const handleAddToBasket = () => {
     props.addtoBasketFromComponent({
       basket: {
@@ -196,9 +128,6 @@ const Item = (props) => {
       <div>
           <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
         </div>
-      <div>
-        <b>{myDiv}</b>
-      </div>
       <div className="col-12 col-md-4 card mx-auto p-4 shadow-lg mb-4">
         <div className="mx-auto col-9">
           <img
@@ -211,10 +140,10 @@ const Item = (props) => {
           <b>{Item.name}</b>
         </div>
         <div>
-          <b>{Item.details}</b>
+          {Item.details}
         </div>
         <div>
-          <b>{Item.value} Tr</b>
+          <b>{Item.value} ₺</b>
         </div>
         <div>
           {props.isLoggedIn ? <button

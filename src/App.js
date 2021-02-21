@@ -1,11 +1,16 @@
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import AppForm from './containers/AppForm';
-import Items from './components/Items';
-import Item from './components/Item';
-import GroupByItem from './components/GroupByItems';
-import AllItems from './components/AllItems';
+import Items from './containers/Items';
+import Item from './containers/Item';
+import GroupByItem from './containers/GroupByItems';
+import AllItems from './containers/AllItems';
 import Basket from './containers/Basket';
 import User from './containers/User';
+import AboutUs from './components/AboutUs';
+import Bank from './components/Bank';
+import Contract from './components/Contract';
+import Conditions from './components/Conditions';
+import Security from './components/Security';
 
 function App() {
   return (
@@ -18,6 +23,11 @@ function App() {
         <Route path="/all" exact render={props => <AllItems {...props} />} />
         <Route path="/basket" exact render={props => <Basket {...props} />} />
         <Route path="/user" exact render={props => <User {...props} />} />
+        <Route path="/AboutUs" exact render={props => <AboutUs {...props} />} />
+        <Route path="/Bank" exact render={props => <Bank {...props} />} />
+        <Route path="/Contract" exact render={props => <Contract {...props} />} />
+        <Route path="/Conditions" exact render={props => <Conditions {...props} />} />
+        <Route path="/Security" exact render={props => <Security {...props} />} />
       </Switch>
   </HashRouter>
   );

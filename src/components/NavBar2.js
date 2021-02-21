@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -96,21 +97,32 @@ const NavBar2 = (props) => {
                 Kategoriler
               </Link>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <Link className="dropdown-item" to="/groups/:Müslin">
-                  Müslinler
+                <Link className="dropdown-item" to="/groups/:Organik Müslin Örtüler">
+                  Organik Müslin Örtüler
                 </Link>
-                <Link className="dropdown-item" to="/groups/:Patik">
-                  Patikler
-                </Link>
-                <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="/groups/:Battaniye">
-                  Battaniyeler
-                </Link>
-                <Link className="dropdown-item" to="/groups/:Kundak">
-                  Kundaklar
+                <Link className="dropdown-item" to="/groups/:Çift Taraflı Pikeler">
+                  Çift Taraflı Pikeler
                 </Link>
                 <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="/all">
+                <Link className="dropdown-item" to="/groups/:Örgü Kumaş Pikeler">
+                  Örgü Kumaş Pikeler
+                </Link>
+                <Link className="dropdown-item" to="/groups/:Müslin Keseler">
+                  Müslin Keseler
+                </Link>
+                <div className="dropdown-divider"></div>
+                <Link className="dropdown-item" to="/groups/:Triko Battaniyeler">
+                  Triko Battaniyeler
+                </Link>
+                <Link className="dropdown-item" to="/groups/:Müslin Mendil ve Boyunluk">
+                  Müslin Mendil ve Boyunluk
+                </Link>
+                <div className="dropdown-divider"></div>
+                <Link className="dropdown-item" to="/groups/:İşlevsel Puset Örtüsü">
+                  İşlevsel Puset Örtüsü
+                </Link>
+                <div className="dropdown-divider"></div>
+                <Link className="dropdown-item font-weight-bold" to="/all">
                   Tüm Ürünler
                 </Link>
               </div>

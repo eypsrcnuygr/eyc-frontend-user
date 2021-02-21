@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="d-block d-md-flex justify-content-around pt-4 pb-1 text-light flex-wrap mt-auto">
+    <footer className="d-block d-md-flex justify-content-around pt-4 pb-1 text-light flex-wrap mt-auto text-center">
       <div className="d-flex flex-column">
         <div>
           <Link to="/"><img src="./Logo3.jpg" alt="logo" className="logo" /></Link> 
@@ -17,13 +17,10 @@ const Footer = () => {
         </div>
         <ul className="pl-0">
           <li className="list-unstyled py-2">
-            <Link className="text-light">Hakkımızda</Link>
+            <Link className="text-light" to='/AboutUs'>Hakkımızda</Link>
           </li>
           <li className="list-unstyled py-2">
-            <Link className="text-light">Hesap Numaralarımız</Link>
-          </li>
-          <li className="list-unstyled py-2">
-            <Link className="text-light">İletişim</Link>
+            <Link className="text-light" to="/Bank">Hesap Numaralarımız</Link>
           </li>
         </ul>
       </div>
@@ -33,16 +30,13 @@ const Footer = () => {
         </div>
         <ul className="pl-0">
           <li className="list-unstyled py-2">
-            <Link className="text-light">Mesafeli Satış Sözleşmesi</Link>
+            <Link className="text-light" to="/Contract">Mesafeli Satış Sözleşmesi</Link>
           </li>
           <li className="list-unstyled py-2">
-            <Link className="text-light">Kişisel Verilerin Korunması</Link>
+            <Link className="text-light" to="/Conditions">İade ve İptal Koşulları</Link>
           </li>
           <li className="list-unstyled py-2">
-            <Link className="text-light">Gizlilik İlkesi</Link>
-          </li>
-          <li className="list-unstyled py-2">
-            <Link className="text-light">Çerez Politikası</Link>
+            <Link className="text-light" to="/Security">Gizlilik ve Güvenlik İlkesi</Link>
           </li>
         </ul>
       </div>
@@ -53,7 +47,7 @@ const Footer = () => {
         <ul className="pl-0">
           <li className="list-unstyled">
             <p>
-              <i className="fab fa-whatsapp mr-2"></i>Telefon Numarası Yaz
+              <i className="fab fa-whatsapp mr-2"></i>0506 472 84 28
             </p>
           </li>
           <li className="list-unstyled">
@@ -64,7 +58,7 @@ const Footer = () => {
           </li>
           <li className="list-unstyled">
             <p>
-              <i className="far fa-compass mr-2"></i>İstanbul Türkiye
+              <i className="far fa-compass mr-2"></i>Eyüpsultan/İstanbul Türkiye
             </p>
           </li>
         </ul>

@@ -3,13 +3,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { logoutAdmin, loginAdmin } from "../actions/index";
 import { connect } from "react-redux";
-import { Slide } from "react-slideshow-image";
-import Footer from './Footer';
 import { Link } from "react-router-dom";
-import NavBar from "./NavBar";
-import NavBar2 from "./NavBar2";
+import Footer from '../components/Footer';
+import NavBar from "../components/NavBar";
+import NavBar2 from "../components/NavBar2";
 import "../styles/App.css";
-import "react-slideshow-image/dist/styles.css";
+import 'react-slideshow-image/dist/styles.css'
 
 const mapStateToProps = (state) => {
   const {
@@ -19,7 +18,6 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
-    id
   } = state.createAdminReducer.admin;
 
   const { isLoggedIn } = state.createAdminReducer;
@@ -32,7 +30,6 @@ const mapStateToProps = (state) => {
     uid,
     client,
     access_token,
-    id
   };
 };
 
@@ -41,18 +38,9 @@ const mapDispatchToProps = (dispatch) => ({
   logoutAdminFromComponent: (admin) => dispatch(logoutAdmin(admin)),
 });
 
-const AllItems = (props) => {
-  const [photo, setImage] = useState(null);
-  const [state, setState] = useState({
-    name: "",
-    details: "",
-    value: 0,
-    group: "Müslin",
-  });
-  const [myDiv, setMyDiv] = useState(null);
-  const [ItemList, setItemList] = useState([]);
+const GroupByItem = (props) => {
   const [navState, setNavState] = useState("");
-  const [banner, setBanner] = useState([]);
+  const [myGroup, setMyGroup] = useState([]);
 
   let responseVar = null;
 
@@ -84,27 +72,20 @@ const AllItems = (props) => {
     }
   };
 
+
   const getItems = () => {
     axios
       .get("https://eyc-api.herokuapp.com/items", {
-        // headers: {
-        //   uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-        //   client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-        //   "access-token": JSON.parse(localStorage.getItem("eycUser"))
-        //     .myAccessToken,
-        // },
       })
       .then((response) => {
         if (response.status === 200) {
-          setItemList(response.data);
-          const a = response.data.filter(
-            (element) => element.banner_status === true
-          );
-          setBanner(a);
+          const a = response.data
+          setMyGroup(a);
         }
-      });
+      })
   };
 
+  
   useEffect(() => {
     getItems();
     checkLoginStatus();
@@ -130,89 +111,29 @@ const AllItems = (props) => {
       });
   };
 
-  const sendItemToAPI = () => {
-    axios
-      .post(
-        "https://eyc-api.herokuapp.com/items",
-        {
-          item: {
-            image: photo,
-            details: state.details,
-            value: state.value,
-            name: state.name,
-            group: state.group,
-          },
-        },
-        {
-          headers: {
-            uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-            client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-            "access-token": JSON.parse(localStorage.getItem("eycUser"))
-              .myAccessToken,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.status === 201) {
-          setMyDiv("Yükleme Başarılı");
-          setTimeout(() => {
-            setMyDiv(null);
-          }, 2000);
-        }
-      })
-      .then(() => {
-        checkLoginStatus();
-        getItems();
-      })
-      .catch((error) => {
-        responseVar = error.response.statusText;
-        setTimeout(() => {
-          alert(responseVar);
-        }, 500);
-      });
-  };
-
-  const onImageUpload = (event) => {
-    setImage(event.originalUrl);
-  };
-
-  const onInputChange = (event) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const handleChange = (event) => {
     setNavState(event.target.value);
   };
-
-  console.log(ItemList);
-
-  console.log(banner);
+  
 
   return (
-    <div className="text-center d-flex flex-column">
+    <div className="text-center d-flex flex-column vh-100">
       <NavBar2 />
-      <h1>Tüm Ürünler</h1>
+      <div><h1>{props.match.params.group.slice(1)}</h1></div>
       <NavBar handleChange={handleChange} value={navState} />
       <div>
           <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
         </div>
-      <div>
-        <b>{myDiv}</b>
-      </div>
-      <div className="row mx-0 px-3 d-flex justify-content-center">
-        {ItemList.filter((myItem) => myItem.name.indexOf(navState) !== -1).map(
+      <div className="row mx-0 d-flex justify-content-center">
+        {myGroup.filter((myItem) => myItem.name.toLowerCase().indexOf(navState.toLowerCase()) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
           (element) => {
             return (
               <div
                 key={element.id}
-                className="card shadow-lg my-3 py-3 col-12 col-lg-3 mx-2 d-flex"
+                className="card shadow-lg my-3 py-3 col-9 col-md-3 mx-3"
               >
-                <div className="col-8 mx-auto">
-                  <Link to={`items/${element.id}`}>
+                <div className="mx-auto col-8">
+                  <Link to={`/items/${element.id}`}>
                     <img
                       src={element.image}
                       alt="item"
@@ -221,10 +142,8 @@ const AllItems = (props) => {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <div className="font-weight-bold details">{element.name}</div>
-                  <div className="font-weight-bold details">{element.details}</div>
-                  <div className="font-weight-bold details">{element.value}</div>
-                  <div className="font-weight-bold details">{element.group}</div>
+                  <div className="details"><b>{element.name}</b></div>
+                  <div className="details"><b>{element.value} ₺</b></div>
                 </div>
               </div>
             );
@@ -232,7 +151,7 @@ const AllItems = (props) => {
         )}
       </div>
       <div className="mb-3">
-       {props.isLoggedIn ?  <button
+        {props.isLoggedIn ? <button
           type="button"
           className="button btn btn-danger"
           onClick={handleLogOut}
@@ -245,4 +164,4 @@ const AllItems = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllItems);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupByItem);

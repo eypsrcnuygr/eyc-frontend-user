@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="EYC BABY"
-      content="BABY PRODUCTS"
+      content="Bebek Ürünleri, Organik Müslin Örtüler, Çift Taraflı Pikeler, Örgü Kumaş Pikeler, Müslin Keseler, Triko Battaniyeler, Müslin Mendil ve Boyunluk, İşlevsel Puset Örtüsü "
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <script src="https://kit.fontawesome.com/27543839ee.js" crossorigin="anonymous"></script>
@@ -16,6 +16,12 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <script>
+      var host = "www.eycbaby.com.tr" || "eycbaby.com";
+      if ((host == window.location.host) && (window.location.protocol != "https:")){
+      window.location.protocol = "https";
+      }
+      </script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
