@@ -19,7 +19,7 @@ To get this project up and running locally, you must have node installed on your
 
 ## Live Link
 
-- Coming!
+- Here is the (live link)[https://www.eycbaby.com.tr/]
 
 ## Getting Started
 
@@ -37,7 +37,8 @@ To get this project up and running locally, you must have node installed on your
 
 **Repository Content**
 
-- Coming!
+- It uses Redux as a state management system. You can find related folders in the src folder as actions, reducers, store.
+- It has two folders as containers and components, for stateful components and dumb components respectively.
 
 ## Authors
 
