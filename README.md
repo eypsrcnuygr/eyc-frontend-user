@@ -9,8 +9,7 @@ This is an ongoing project which is an e-commerce app for baby products.
 - Javascript
 - React
 - Redux
-- Eslint
-- Stylelint
+- Bootstrap
 - Yarn
 
 ## Prerequisities
