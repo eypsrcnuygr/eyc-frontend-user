@@ -19,7 +19,7 @@ To get this project up and running locally, you must have node installed on your
 
 ## Live Link
 
-- Here is the (live link)[https://www.eycbaby.com.tr/]
+- Here is the [live link](https://www.eycbaby.com.tr/)
 
 ## Getting Started
 
