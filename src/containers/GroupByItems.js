@@ -125,7 +125,7 @@ const GroupByItem = (props) => {
           <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
         </div>
       <div className="row mx-0 d-flex justify-content-center">
-        {myGroup.filter((myItem) => myItem.name.indexOf(navState) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
+        {myGroup.filter((myItem) => myItem.name.toLowerCase().indexOf(navState.toLowerCase()) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
           (element) => {
             return (
               <div

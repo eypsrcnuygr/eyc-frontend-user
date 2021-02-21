@@ -123,7 +123,7 @@ const AllItems = (props) => {
           <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
         </div>
       <div className="row mx-0 px-3 d-flex justify-content-center">
-        {ItemList.filter((myItem) => myItem.name.indexOf(navState) !== -1).map(
+        {ItemList.filter((myItem) => myItem.name.toLowerCase().indexOf(navState.toLowerCase()) !== -1).map(
           (element) => {
             return (
               <div
