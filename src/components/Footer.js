@@ -65,7 +65,7 @@ const Footer = () => {
         </ul>
       </div>
     </footer>
-    <div className="text-danger dizayn text-center">Dizayn ©Eyüp Sercan UYGUR</div>
+    <div className="text-danger dizayn text-center pb-2">Dizayn ©<a target="blank" href="https://www.eyupsercanuygur.com" className="text-danger">Eyüp Sercan UYGUR</a></div>
     </div>
     
   );
