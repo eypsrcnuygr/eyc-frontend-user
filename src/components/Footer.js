@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="d-block d-md-flex justify-content-around pt-4 pb-1 text-light flex-wrap mt-auto text-center">
       <div className="d-flex flex-column">
         <div>
-          <Link to="/"><img src="./Logo3.jpg" alt="logo" className="logo" /></Link> 
+          <Link to="/"><img src="./Logo3.jpg" alt="EYC Baby, Anne Çocuk Ürünleri Logo" className="logo" /></Link> 
         </div>
         <div>
           <i className="fab fa-instagram fa-2x mt-2"></i>

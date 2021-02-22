@@ -136,7 +136,7 @@ const GroupByItem = (props) => {
                   <Link to={`/items/${element.id}`}>
                     <img
                       src={element.image}
-                      alt="item"
+                      alt={element.group}
                       className="card-img-top img-fluid rounded myImage"
                     />
                   </Link>

@@ -132,7 +132,7 @@ const Item = (props) => {
         <div className="mx-auto col-9">
           <img
             src={Item.image}
-            alt="specific-item"
+            alt={Item.group}
             className="img-fluid rounded"
           />
         </div>
