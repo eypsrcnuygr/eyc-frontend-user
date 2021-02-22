@@ -24,9 +24,6 @@ const createBasketReducer = (state = initialState, action) => {
       };
     }
     case "REMOVE_FROM_BASKET": {
-      // state.basket.items_ids.splice(action.payload.basket.item_id, 1);
-      // state.basket.value.splice(action.payload.basket.item_id, 1);
-      console.log(action.payload.basket);
       return {
         ...state,
         basket: {
