@@ -38,8 +38,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const AppForm = (props) => {
   const [email, setEmail] = useState("");
+  const [myAddress, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("");
+  const [myName, setMyName] = useState("");
   const [emailForLogin, setEmailForLogin] = useState("");
   const [passwordForLogin, setPasswordForLogin] = useState("");
   const [hasError, setHasError] = useState(false);
@@ -53,6 +55,8 @@ const AppForm = (props) => {
         email,
         password,
         password_confirmation,
+        address: myAddress,
+        name: myName,
       })
       .then((response) => {
         console.log(response);
@@ -124,6 +128,16 @@ const AppForm = (props) => {
     <div className="yellowbg d-flex flex-column">
       <h1 className="text-center font-weight-bold">EYC BABY</h1>
       <form className="text-center mb-4 w-50 mx-auto mt-4">
+      <input
+          type="text"
+          name="name"
+          id="myNameForTest"
+          placeholder="İsim Soyisim"
+          value={myName}
+          onChange={(event) => setMyName(event.target.value)}
+          required
+          className="form-control mb-2"
+        />
         <input
           type="email"
           name="email"
@@ -154,11 +168,23 @@ const AppForm = (props) => {
           required
           className="form-control mb-2"
         />
+        <textarea
+          type="text"
+          name="address"
+          id="myAddress"
+          rows="3"
+          placeholder="Adresiniz"
+          value={myAddress}
+          onChange={(event) => setAddress(event.target.value)}
+          required
+          className="form-control mb-2"
+        />
         <button
           type="button"
           className="btn btn-success mt-3"
           id="myButtonForTest"
           onClick={handleSubmit}
+          disabled={myName.length<1 || email.length<1 || password.length<1 || password_confirmation.length <1 || myAddress.length <1}
         >
           Üye Ol
         </button>
@@ -190,6 +216,7 @@ const AppForm = (props) => {
           className="btn btn-primary mt-3"
           data-testid="custom-element3"
           onClick={handleSubmitForLogin}
+          disabled={emailForLogin.length < 1 || passwordForLogin.length < 1}
         >
           Giriş Yap
         </button>

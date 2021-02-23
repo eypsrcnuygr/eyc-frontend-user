@@ -4,7 +4,7 @@ import iyzicoLogo from '../styles/iyzico-logo.png';
 const Footer = () => {
   return (
     <div className="mt-auto">
-      <div className="text-center"><img src={iyzicoLogo} alt="iyzico-logo" /></div>
+      <div className="text-center"><img src={iyzicoLogo} alt="iyzico-logo" className="img img-fluid" /></div>
       <footer className="d-block d-md-flex justify-content-around pt-4 pb-1 text-light flex-wrap mt-auto text-center">
       <div className="d-flex flex-column">
         <div>
