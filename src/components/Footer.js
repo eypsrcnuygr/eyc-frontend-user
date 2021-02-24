@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import iyzicoLogo from '../styles/iyzico-logo.png';
+import LogoSiyah from '../styles/Logo3.jpg';
 
 const Footer = () => {
   return (
@@ -8,7 +9,7 @@ const Footer = () => {
       <footer className="d-block d-md-flex justify-content-around pt-4 pb-1 text-light flex-wrap mt-auto text-center">
       <div className="d-flex flex-column">
         <div>
-          <Link to="/"><img src="./Logo3.jpg" alt="EYC Baby, Anne Çocuk Ürünleri Logo" className="logo" /></Link> 
+          <Link to="/"><img src={LogoSiyah} alt="EYC Baby, Anne Çocuk Ürünleri Logo" className="logo" /></Link> 
         </div>
         <div>
           <a href="https://instagram.com/eyc_baby?igshid=uvxui1qnednb" target="blank" className="text-light"><i className="fab fa-instagram fa-2x mt-2"></i></a>

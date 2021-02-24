@@ -6,6 +6,7 @@ import { logoutAdmin, loginAdmin, addtoBasket } from "../actions/index";
 import Footer from '../components/Footer';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import LogoBeyaz from '../styles/Logobeyaz.jpg';
 
 const mapStateToProps = (state) => {
   const {
@@ -126,7 +127,7 @@ const Item = (props) => {
     <div className="text-center vh-100 h-100 d-flex flex-column">
       <NavBar2 />
       <div>
-          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+          <Link to="/"><img src={LogoBeyaz} alt="logo" className="logo-2" /></Link> 
         </div>
       <div className="col-12 col-md-4 card mx-auto p-4 shadow-lg mb-4">
         <div className="mx-auto col-9">
