@@ -54,3 +54,9 @@ footer, .dizayn {
   text-shadow: 2px 2px red;
   font-weight: 700;
 }
+
+.my-iframe {
+  height: 500px;
+  width:80%;
+  margin: 0 auto;
+}

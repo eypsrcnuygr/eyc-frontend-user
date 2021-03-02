@@ -8,7 +8,6 @@ const initialState = {
 };
 
 const createBasketReducer = (state = initialState, action) => {
-  console.log(action.payload);
   switch (action.type) {
     case "ADD_TO BASKET": {
       return {

@@ -49,7 +49,7 @@ const AllItems = (props) => {
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
     axios
-      .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
+      .get("http://localhost:3001/v1/auth_user/validate_token", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -76,7 +76,7 @@ const AllItems = (props) => {
 
   const getItems = () => {
     axios
-      .get("https://eyc-api.herokuapp.com/items", {
+      .get("http://localhost:3001/items", {
       })
       .then((response) => {
         if (response.status === 200) {
@@ -92,7 +92,7 @@ const AllItems = (props) => {
 
   const handleLogOut = () => {
     axios
-      .delete("https://eyc-api.herokuapp.com/v1/auth_user/sign_out", {
+      .delete("http://localhost:3001/v1/auth_user/sign_out", {
         headers: {
           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
           client: JSON.parse(localStorage.getItem("eycUser")).myClient,

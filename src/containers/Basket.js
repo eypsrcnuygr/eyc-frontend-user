@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { logoutAdmin, loginAdmin, removeFromBasket } from "../actions/index";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {Helmet} from "react-helmet";
 import NavBar2 from "../components/NavBar2";
 import Footer from "../components/Footer";
 
@@ -45,12 +46,13 @@ const mapDispatchToProps = (dispatch) => ({
 const Basket = (props) => {
   const [myValue, setMyValue] = useState(0);
   const [myItems, setMyItems] = useState([]);
+  const [myDirectedForm, setMyDirectedForm] = useState(null);
   let i = -1;
 
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
       axios
-        .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
+        .get("http://localhost:3001/v1/auth_user/validate_token", {
           headers: {
             uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
             client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -76,17 +78,15 @@ const Basket = (props) => {
   };
   const calculateValue = () => {
     let value = props.value;
-    console.log(value);
     value = value.map((item) => parseFloat(item));
     value = value.reduce((a, b) => a + b, 0);
-    console.log(value);
     setMyValue(value);
   };
 
   const getItems = () => {
     props.items_ids.forEach((id) => {
       axios
-        .get(`https://eyc-api.herokuapp.com/items/${id}`, {
+        .get(`http://localhost:3001/items/${id}`, {
           headers: {
             uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
             client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -96,7 +96,6 @@ const Basket = (props) => {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             setMyItems((myItems) => [...myItems, response.data]);
           }
         });
@@ -104,8 +103,18 @@ const Basket = (props) => {
   };
 
   const handleTransaction = () => {
+    // axios.post('https://sandbox-api.iyzipay.com/payment/iyzipos/checkoutform/initialize/auth/ecom', {
+    //   headers: {
+    //     secretKey: 'sandbox-ANwvKQNwn7Bj8EIxetGcm8pM1UdaHWOU',
+    //     apiKey: 'sandbox-4LDYQv2hTjDQC0p37xyOSDUoYNUKpuYs',
+    //     'Content-Type': 'application/json'
+    // }
+    // }, { sameSite: 'None', secure: true }).then(response => {
+    //   console.log(response)
+    // })
+
     axios.post(
-      `https://eyc-api.herokuapp.com/sold_items`,
+      `http://localhost:3001/form_initializer`,
       {
         sold_item: {
           user_id: props.user_id,
@@ -122,7 +131,10 @@ const Basket = (props) => {
             .myAccessToken,
         },
       }
-    );
+    ).then((response) => {
+      setMyDirectedForm(response.data.paymentPageUrl)
+      console.log(response.data.paymentPageUrl)
+    })
   };
 
   const getRemovedItems = (i) => {
@@ -141,7 +153,6 @@ const Basket = (props) => {
     })
 
     getRemovedItems(i);
-    console.log(props.value);
   }
 
   useEffect(() => {
@@ -177,6 +188,10 @@ const Basket = (props) => {
           );
         })}
       </div>
+      <div className="my-iframe">
+      {myDirectedForm ? <iframe src={`${myDirectedForm}&iframe=true`} className="w-100 h-100"></iframe> : null}
+      </div>
+        
       <div className="font-weight-bold text-center text-danger mt-5">
         Toplam: {myValue} TL
       </div>

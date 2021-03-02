@@ -51,7 +51,7 @@ const AppForm = (props) => {
 
   const handleSubmit = (event) => {
     axios
-      .post("https://eyc-api.herokuapp.com/v1/auth_user", {
+      .post("http://localhost:3001/v1/auth_user", {
         email,
         password,
         password_confirmation,
@@ -59,9 +59,7 @@ const AppForm = (props) => {
         name: myName,
       })
       .then((response) => {
-        console.log(response);
         if (response.data.status === "success") {
-          console.log(response.headers);
           SetLocalStorage(response);
           props.createAdminFromComponent({
             admin: {
@@ -93,13 +91,12 @@ const AppForm = (props) => {
 
   const handleSubmitForLogin = (event) => {
     axios
-      .post("https://eyc-api.herokuapp.com/v1/auth_user/sign_in", {
+      .post("http://localhost:3001/v1/auth_user/sign_in", {
         email: emailForLogin,
         password: passwordForLogin,
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
           SetLocalStorage(response);
           props.loginAdminFromComponent({
             admin: {
