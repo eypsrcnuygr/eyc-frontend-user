@@ -42,10 +42,13 @@ const AppForm = (props) => {
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("");
   const [myName, setMyName] = useState("");
+  const [mySurname, setMySurname] = useState("");
   const [emailForLogin, setEmailForLogin] = useState("");
   const [passwordForLogin, setPasswordForLogin] = useState("");
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [myCity, setMyCity] = useState("");
+  const [myGsm, setMyGsm] = useState("");
 
   let responseVar = null;
 
@@ -57,6 +60,9 @@ const AppForm = (props) => {
         password_confirmation,
         address: myAddress,
         name: myName,
+        surname: mySurname,
+        gsm: myGsm,
+        city: myCity
       })
       .then((response) => {
         if (response.data.status === "success") {
@@ -129,9 +135,19 @@ const AppForm = (props) => {
           type="text"
           name="name"
           id="myNameForTest"
-          placeholder="İsim Soyisim"
+          placeholder="İsim"
           value={myName}
           onChange={(event) => setMyName(event.target.value)}
+          required
+          className="form-control mb-2"
+        />
+        <input
+          type="text"
+          name="name"
+          id="mySurnameForTest"
+          placeholder="Soyisim"
+          value={mySurname}
+          onChange={(event) => setMySurname(event.target.value)}
           required
           className="form-control mb-2"
         />
@@ -174,6 +190,25 @@ const AppForm = (props) => {
           value={myAddress}
           onChange={(event) => setAddress(event.target.value)}
           required
+          className="form-control mb-2"
+        />
+        <input
+          type="text"
+          name="city"
+          id="myCityForTest"
+          placeholder="Şehir"
+          value={myCity}
+          onChange={(event) => setMyCity(event.target.value)}
+          required
+          className="form-control mb-2"
+        />
+         <input
+          type="text"
+          name="city"
+          id="myCityForTest"
+          placeholder="Cep Telefonu (Opsiyonel)"
+          value={myGsm}
+          onChange={(event) => setMyGsm(event.target.value)}
           className="form-control mb-2"
         />
         <button
