@@ -45,7 +45,7 @@
 //   const checkLoginStatus = () => {
 //     if (JSON.parse(localStorage.getItem("eycUser"))) {
 //       axios
-//         .get("http://localhost:3001/v1/auth_user/validate_token", {
+//         .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
 //           headers: {
 //             uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
 //             client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -81,7 +81,7 @@
 
 //   const getItems = () => {
 //     axios
-//       .get(`http://localhost:3001/users/${props.id}`, {
+//       .get(`https://eyc-api.herokuapp.com/users/${props.id}`, {
 //         headers: {
 //           uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
 //           client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -102,7 +102,7 @@
 
 //   const handleTransaction = () => {
 //     axios.post(
-//       `http://localhost:3001/sold_items`,
+//       `https://eyc-api.herokuapp.com/sold_items`,
 //       {
 //         sold_item: {
 //           user_id: props.user_id,

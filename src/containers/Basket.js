@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { logoutAdmin, loginAdmin, removeFromBasket } from "../actions/index";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Helmet } from "react-helmet";
 import NavBar2 from "../components/NavBar2";
 import Footer from "../components/Footer";
 
@@ -52,7 +51,7 @@ const Basket = (props) => {
   const checkLoginStatus = () => {
     if (JSON.parse(localStorage.getItem("eycUser"))) {
       axios
-        .get("http://localhost:3001/v1/auth_user/validate_token", {
+        .get("https://eyc-api.herokuapp.com/v1/auth_user/validate_token", {
           headers: {
             uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
             client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -86,7 +85,7 @@ const Basket = (props) => {
   const getItems = () => {
     props.items_ids.forEach((id) => {
       axios
-        .get(`http://localhost:3001/items/${id}`, {
+        .get(`https://eyc-api.herokuapp.com/items/${id}`, {
           headers: {
             uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
             client: JSON.parse(localStorage.getItem("eycUser")).myClient,
@@ -103,19 +102,9 @@ const Basket = (props) => {
   };
 
   const handleTransaction = () => {
-    // axios.post('https://sandbox-api.iyzipay.com/payment/iyzipos/checkoutform/initialize/auth/ecom', {
-    //   headers: {
-    //     secretKey: 'sandbox-ANwvKQNwn7Bj8EIxetGcm8pM1UdaHWOU',
-    //     apiKey: 'sandbox-4LDYQv2hTjDQC0p37xyOSDUoYNUKpuYs',
-    //     'Content-Type': 'application/json'
-    // }
-    // }, { sameSite: 'None', secure: true }).then(response => {
-    //   console.log(response)
-    // })
-
     axios
       .post(
-        `http://localhost:3001/form_initializer`,
+        `https://eyc-api.herokuapp.com/form_initializer`,
         {
           sold_item: {
             user_id: props.user_id,
@@ -135,7 +124,7 @@ const Basket = (props) => {
       )
       .then((response) => {
         setMyDirectedForm(response.data.paymentPageUrl);
-        console.log(response.data.checkoutFormContent);
+        setMyItems([])
       });
   };
 
