@@ -184,6 +184,7 @@ const Basket = (props) => {
       <div className="my-iframe">
         {myDirectedForm ? (
           <iframe
+            title="Ödeme Sayfası"
             src={`${myDirectedForm}&iframe=true`}
             className="w-100 h-100"
           ></iframe>
