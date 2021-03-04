@@ -32,7 +32,7 @@ const mapStateToProps = (state) => {
     items_ids,
     user_id,
     value,
-    id
+    id,
   };
 };
 
@@ -45,6 +45,7 @@ const mapDispatchToProps = (dispatch) => ({
 const Basket = (props) => {
   const [myValue, setMyValue] = useState(0);
   const [myItems, setMyItems] = useState([]);
+  const [myDirectedForm, setMyDirectedForm] = useState(null);
   let i = -1;
 
   const checkLoginStatus = () => {
@@ -64,7 +65,7 @@ const Basket = (props) => {
               admin: {
                 email: response.data.data.email,
                 password: props.password,
-                id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id
+                id: JSON.parse(localStorage.getItem("eycUser")).myResponse.id,
               },
             });
           }
@@ -76,10 +77,8 @@ const Basket = (props) => {
   };
   const calculateValue = () => {
     let value = props.value;
-    console.log(value);
     value = value.map((item) => parseFloat(item));
     value = value.reduce((a, b) => a + b, 0);
-    console.log(value);
     setMyValue(value);
   };
 
@@ -96,37 +95,40 @@ const Basket = (props) => {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
             setMyItems((myItems) => [...myItems, response.data]);
           }
         });
-    })
+    });
   };
 
   const handleTransaction = () => {
-    axios.post(
-      `https://eyc-api.herokuapp.com/sold_items`,
-      {
-        sold_item: {
-          user_id: props.user_id,
-          items_ids: props.items_ids,
-          date: new Date().toISOString(),
-          value: myValue,
+    axios
+      .post(
+        `https://eyc-api.herokuapp.com/form_initializer`,
+        {
+          sold_item: {
+            user_id: props.user_id,
+            items_ids: props.items_ids,
+            date: new Date().toISOString(),
+            value: myValue,
+          },
         },
-      },
-      {
-        headers: {
-          uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
-          client: JSON.parse(localStorage.getItem("eycUser")).myClient,
-          "access-token": JSON.parse(localStorage.getItem("eycUser"))
-            .myAccessToken,
-        },
-      }
-    );
+        {
+          headers: {
+            uid: JSON.parse(localStorage.getItem("eycUser")).myUid,
+            client: JSON.parse(localStorage.getItem("eycUser")).myClient,
+            "access-token": JSON.parse(localStorage.getItem("eycUser"))
+              .myAccessToken,
+          },
+        }
+      )
+      .then((response) => {
+        setMyDirectedForm(response.data.paymentPageUrl);
+        setMyItems([])
+      });
   };
 
   const getRemovedItems = (i) => {
-      
     setMyItems(myItems.filter((item) => item.id !== i.id));
     calculateValue();
   };
@@ -138,11 +140,10 @@ const Basket = (props) => {
         item_id: i.id,
         value: i.value,
       },
-    })
+    });
 
     getRemovedItems(i);
-    console.log(props.value);
-  }
+  };
 
   useEffect(() => {
     checkLoginStatus();
@@ -153,7 +154,6 @@ const Basket = (props) => {
     calculateValue();
   }, [props.value]);
 
-
   return (
     <div className="d-flex flex-column h-100 vh-100 text-center">
       <NavBar2 />
@@ -163,7 +163,11 @@ const Basket = (props) => {
           return (
             <div key={i} className="col-lg-2 mx-auto card shadow-lg py-3">
               <div>
-                <img src={item.image} alt="ürün" className="img-fluid col-10 py-3" />
+                <img
+                  src={item.image}
+                  alt="ürün"
+                  className="img-fluid col-10 py-3"
+                />
               </div>
               <div>{item.name}</div>
               <div>{item.value}</div>
@@ -177,6 +181,15 @@ const Basket = (props) => {
           );
         })}
       </div>
+      <div className="my-iframe">
+        {myDirectedForm ? (
+          <iframe
+            src={`${myDirectedForm}&iframe=true`}
+            className="w-100 h-100"
+          ></iframe>
+        ) : null}
+      </div>
+
       <div className="font-weight-bold text-center text-danger mt-5">
         Toplam: {myValue} TL
       </div>

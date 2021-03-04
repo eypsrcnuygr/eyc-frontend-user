@@ -8,7 +8,7 @@ const AboutUs = () => (
       <h1 className="text-center">Hakkımızda</h1>
       <p>
         EYC BABY 2019 yılında girişimci bir anne tarafından kuruldu. Bebeğimi
-        büyütürken ihtiyaç ihtiyaç duyduğum zararlı kimyasallar içermeyen ve
+        büyütürken ihtiyaç duyduğum zararlı kimyasallar içermeyen ve
         annelerin kullanırken rahat edebileceği ürünler üretmeye karar verdim.
         Doğallığı her bebeğin hakettiğini, her bebeğin özel olduğunu düşünerek
         organik ürünler üretmeye başladım. Siz değerli annelerin akıllarında

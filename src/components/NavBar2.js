@@ -78,11 +78,11 @@ const NavBar2 = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light my-navbar">
       <div
-        className="collapse navbar-collapse d-flex justify-content-center"
+        className="collapse navbar-collapse d-flex justify-content-center flex-wrap w-100"
         id="navbarSupportedContent"
       >
         
-        <div className="collapse navbar-collapse text-center d-flex justify-content-center" id="navbarSupportedContent">
+        <div className="collapse navbar-collapse text-center d-flex justify-content-center flex-wrap w-100" id="navbarSupportedContent">
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
               <Link
@@ -132,8 +132,8 @@ const NavBar2 = (props) => {
             {!props.isLoggedIn ? (
               <Link to="/logged_in" className="login">Giriş Yap</Link>
             ) : (
-              <div className="d-flex justify-content-lg-between">
-                <div className="ml-3"><Link to="/" className="my-link-2 font-weight-bold">Hoşgeldin {props.email}</Link></div>
+              <div className="d-lg-flex justify-content-lg-between">
+                <div className="ml-3"><Link to="/" className="my-link-2 font-weight-bold font-smaller">Hoşgeldin {props.email}</Link></div>
                 <div><Link to="/basket" className="my-link-2"><i className="fas fa-2x fa-shopping-cart"></i></Link><span style={{ position: "absolute", color: "white", fontWeight: "700" }}>{props.items_ids.length}</span></div>
               </div>
               

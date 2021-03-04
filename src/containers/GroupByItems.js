@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Footer from '../components/Footer';
 import NavBar from "../components/NavBar";
 import NavBar2 from "../components/NavBar2";
+import LogoBeyaz from '../styles/Logobeyaz.jpg';
 import "../styles/App.css";
 import 'react-slideshow-image/dist/styles.css'
 
@@ -122,7 +123,7 @@ const GroupByItem = (props) => {
       <div><h1>{props.match.params.group.slice(1)}</h1></div>
       <NavBar handleChange={handleChange} value={navState} />
       <div>
-          <Link to="/"><img src="./Logobeyaz.jpg" alt="logo" className="logo-2" /></Link> 
+          <Link to="/"><img src={LogoBeyaz} alt="logo" className="logo-2" /></Link>  
         </div>
       <div className="row mx-0 d-flex justify-content-center">
         {myGroup.filter((myItem) => myItem.name.toLowerCase().indexOf(navState.toLowerCase()) !== -1).filter(element => element.group === props.match.params.group.slice(1)).map(
@@ -136,7 +137,7 @@ const GroupByItem = (props) => {
                   <Link to={`/items/${element.id}`}>
                     <img
                       src={element.image}
-                      alt="item"
+                      alt={element.group}
                       className="card-img-top img-fluid rounded myImage"
                     />
                   </Link>

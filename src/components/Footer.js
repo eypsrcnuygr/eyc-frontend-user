@@ -1,19 +1,23 @@
 import { Link } from "react-router-dom";
+import iyzicoLogo from '../styles/iyzico-logo.png';
+import LogoSiyah from '../styles/Logo3.jpg';
 
 const Footer = () => {
   return (
-    <footer className="d-block d-md-flex justify-content-around pt-4 pb-1 text-light flex-wrap mt-auto text-center">
+    <div className="mt-auto">
+      <div className="text-center"><img src={iyzicoLogo} alt="iyzico-logo" className="img img-fluid" /></div>
+      <footer className="d-block d-md-flex justify-content-around pt-4 pb-1 text-light flex-wrap mt-auto text-center">
       <div className="d-flex flex-column">
         <div>
-          <Link to="/"><img src="./Logo3.jpg" alt="logo" className="logo" /></Link> 
+          <Link to="/"><img src={LogoSiyah} alt="EYC Baby, Anne Çocuk Ürünleri Logo" className="logo" /></Link> 
         </div>
         <div>
-          <i className="fab fa-instagram fa-2x mt-2"></i>
+          <a href="https://instagram.com/eyc_baby?igshid=uvxui1qnednb" target="blank" className="text-light"><i className="fab fa-instagram fa-2x mt-2"></i></a>
         </div>
       </div>
       <div className="d-flex flex-column align-items-center">
         <div className="text-center w-100">
-          <h4 className="border-bottom my-h4">EYC BABY</h4>
+          <h4 className="border-bottom">EYC BABY</h4>
         </div>
         <ul className="pl-0">
           <li className="list-unstyled py-2">
@@ -26,7 +30,7 @@ const Footer = () => {
       </div>
       <div>
         <div className="text-center w-100">
-          <h4 className="border-bottom my-h4">Müşteri Hizmetleri</h4>
+          <h4 className="border-bottom">Müşteri Hizmetleri</h4>
         </div>
         <ul className="pl-0">
           <li className="list-unstyled py-2">
@@ -42,7 +46,7 @@ const Footer = () => {
       </div>
       <div>
         <div className="text-center w-100">
-          <h4 className="border-bottom my-h4">İletişim</h4>
+          <h4 className="border-bottom">İletişim</h4>
         </div>
         <ul className="pl-0">
           <li className="list-unstyled">
@@ -64,6 +68,9 @@ const Footer = () => {
         </ul>
       </div>
     </footer>
+    <div className="text-danger dizayn text-center pb-2">Dizayn ©<a target="blank" href="https://www.eyupsercanuygur.com" className="text-danger">Eyüp Sercan UYGUR</a></div>
+    </div>
+    
   );
 };
 

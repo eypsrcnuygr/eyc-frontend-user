@@ -1,4 +1,4 @@
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AppForm from './containers/AppForm';
 import Items from './containers/Items';
 import Item from './containers/Item';
@@ -14,7 +14,7 @@ import Security from './components/Security';
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Switch>
         <Route path="/" exact render={props => <Items {...props} />} />
         <Route path="/logged_in" exact render={props => <AppForm {...props} />} />
@@ -29,7 +29,7 @@ function App() {
         <Route path="/Conditions" exact render={props => <Conditions {...props} />} />
         <Route path="/Security" exact render={props => <Security {...props} />} />
       </Switch>
-  </HashRouter>
+  </BrowserRouter>
   );
 }
 
