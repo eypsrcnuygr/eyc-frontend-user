@@ -46,6 +46,7 @@ const Basket = (props) => {
   const [myValue, setMyValue] = useState(0);
   const [myItems, setMyItems] = useState([]);
   const [myDirectedForm, setMyDirectedForm] = useState(null);
+  const [myDiv, setMyDiv] = useState(null);
   let i = -1;
 
   const checkLoginStatus = () => {
@@ -102,6 +103,7 @@ const Basket = (props) => {
   };
 
   const handleTransaction = () => {
+    setMyDiv('İşlem başladı...')
     axios
       .post(
         `https://eyc-api.herokuapp.com/form_initializer`,
@@ -124,7 +126,8 @@ const Basket = (props) => {
       )
       .then((response) => {
         setMyDirectedForm(response.data.paymentPageUrl);
-        setMyItems([])
+        setMyItems([]);
+        setMyDiv(null);
       });
   };
 
@@ -157,6 +160,7 @@ const Basket = (props) => {
   return (
     <div className="d-flex flex-column h-100 vh-100 text-center">
       <NavBar2 />
+      <div>{myDiv}</div>
       <div className="d-flex flex-wrap text-center mt-3">
         {myItems.map((item) => {
           i += 1;
