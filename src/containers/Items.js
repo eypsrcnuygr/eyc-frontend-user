@@ -167,7 +167,7 @@ const Items = (props) => {
          {pike ? pike.map(item => {
            k += 1;
            return (
-            <div index={k} className="col-lg-4 col-8 mt-3 d-flex flex-column justify-content-end">
+            <div key={k} className="col-lg-4 col-8 mt-3 d-flex flex-column justify-content-end">
               <div><Link to={`items/${item.id}`} ><img src={item.image} alt="Organik Pike" className="w-100" /></Link></div>
               <div>{item.name}</div>
             </div>
