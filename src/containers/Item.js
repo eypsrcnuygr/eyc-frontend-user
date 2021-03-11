@@ -124,7 +124,7 @@ const Item = (props) => {
     })
   } 
   return (
-    <div className="text-center vh-100 h-100 d-flex flex-column">
+    <div className="text-center h-100 d-flex flex-column">
       <NavBar2 />
       <div>
           <Link to="/"><img src={LogoBeyaz} alt="logo" className="logo-2" /></Link> 
