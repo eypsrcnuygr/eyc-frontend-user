@@ -133,7 +133,7 @@ const Items = (props) => {
       </div>
       <main>
         <section className="slide-container">
-          <h1>Anne Bebek Ürünleri...</h1>
+          <h1 className="d-none">Anne Bebek Ürünleri</h1>
           <Slide easing="ease-in">
             {banner.map((element) => (
               <div
@@ -158,7 +158,7 @@ const Items = (props) => {
         <section>
           <h2>Organik Müslin Örtüler</h2>
           {muslin[0] ? <div className="d-flex justify-content-center align-items-center mt-4">
-            <div className="col-4">Bebekleriniz icin en güzelini en doğal haliyle sevgiyle üretiyoruz ...</div>
+            <div className="col-4 my-font">Bebekleriniz icin en güzelini en doğal haliyle sevgiyle üretiyoruz ...</div>
             <div className="col-4"><Link to="/groups/:Organik Müslin Örtüler"><img src={muslin[0].image} alt="Organik Müslin" className="w-100" /></Link></div>
           </div> : null}
         </section>
