@@ -42,6 +42,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Items = (props) => {
   const [banner, setBanner] = useState([]);
+  const [muslin, setMuslin] = useState([]);
+  const [pike, setPike] = useState([]);
 
   let responseVar = null;
 
@@ -79,7 +81,15 @@ const Items = (props) => {
         const a = response.data.filter(
           (element) => element.banner_status === true
         );
+        const b = response.data.filter(element => (
+          element.group === 'Organik Müslin Örtüler'
+        ));
+        const c = response.data.filter(element => (
+          element.group === 'Çift Taraflı Pikeler'
+        ));
         setBanner(a);
+        setMuslin(b);
+        setPike(c);
       }
     });
   };
@@ -108,7 +118,7 @@ const Items = (props) => {
         }, 500);
       });
   };
-
+  let k = -1;
   return (
     <div className="text-center h-100 vh-100 d-flex flex-column">
       <NavBar2 />
@@ -144,6 +154,25 @@ const Items = (props) => {
               </div>
             ))}
           </Slide>
+        </section>
+        <section>
+          <h2>Organik Müslin Örtüler</h2>
+          {muslin[0] ? <div className="d-flex justify-content-center align-items-center mt-4">
+            <div className="col-4">Bebekleriniz icin en güzelini en doğal haliyle sevgiyle üretiyoruz ...</div>
+            <div className="col-4"><Link to="/groups/:Organik Müslin Örtüler"><img src={muslin[0].image} alt="Organik Müslin" className="w-100" /></Link></div>
+          </div> : null}
+        </section>
+        <h2 className="mt-5">Çift Taraflı Pikeler</h2>
+        <section className="d-flex flex-wrap justify-content-center">
+         {pike ? pike.map(item => {
+           k += 1;
+           return (
+            <div index={k} className="col-lg-4 col-8 mt-3 d-flex flex-column justify-content-end">
+              <div><Link to={`items/${item.id}`} ><img src={item.image} alt="Organik Pike" className="w-100" /></Link></div>
+              <div>{item.name}</div>
+            </div>
+           )
+         }) : null}
         </section>
       </main>
       <div className="mb-3 mt-2">
