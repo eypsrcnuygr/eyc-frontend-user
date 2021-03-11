@@ -159,7 +159,7 @@ const Items = (props) => {
           <h2>Organik Müslin Örtüler</h2>
           {muslin[0] ? <div className="d-flex justify-content-center align-items-center mt-4">
             <div className="col-4 my-font">Bebekleriniz icin en güzelini en doğal haliyle sevgiyle üretiyoruz ...</div>
-            <div className="col-4"><Link to="/groups/:Organik Müslin Örtüler"><img src={muslin[0].image} alt="Organik Müslin" className="w-100" /></Link></div>
+            <div className="col-lg-4 col-6"><Link to="/groups/:Organik Müslin Örtüler"><img src={muslin[0].image} alt="Organik Müslin" className="w-100" /></Link></div>
           </div> : null}
         </section>
         <h2 className="mt-5">Çift Taraflı Pikeler</h2>
